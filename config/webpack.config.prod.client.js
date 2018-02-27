@@ -7,6 +7,7 @@ const common = require("./webpack.config.common.client");
 module.exports = merge(common, {
   bail: true,
   devtool: "source-map",
+  mode: "production",
   entry: {
     client: [path.resolve(__dirname, "../src/client/index.js")]
   },
@@ -14,24 +15,14 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
+        use: [{ loader: "style-loader" }, { loader: "css-loader" }]
       }
     ]
   },
   plugins: [
-    new ExtractTextPlugin("static/css/[name].css"),
     new UglifyJsPlugin({
       test: /\.js($|\?)/i,
-      cache: true,
-      uglifyOptions: {
-        compress: {
-          comparisons: false
-        },
-        sourceMap: true
-      }
+      sourceMap: true
     })
   ]
 });

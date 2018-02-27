@@ -4,21 +4,23 @@ const merge = require("webpack-merge");
 const common = require("./webpack.config.common.client");
 
 module.exports = merge(common, {
-  devtool: "eval-source-map",
+  devtool: "cheap-module-source-map",
+  mode: "development",
+  output: {
+    crossOriginLoading: "anonymous"
+  },
   entry: [
     "react-hot-loader/patch",
-    "webpack-dev-server/client?http://localhost:3000",
     path.resolve(__dirname, "../src/client/index.js")
   ],
-  devServer: {
+  serve: {
     host: "localhost",
     port: 3000,
     open: true,
     openPage: "app",
-    hotOnly: true,
     proxy: {
-      "/api": "http://localhost:3090",
-      "/app/reports": "http://localhost:3090",
+      "/api": "http://localhost:3020",
+      "/app/reports": "http://localhost:3020",
       "/app": {
         target: "http://localhost:3000/index.html",
         pathRewrite: { "/app": "" }
@@ -38,6 +40,5 @@ module.exports = merge(common, {
         use: [{ loader: "style-loader" }, { loader: "css-loader" }]
       }
     ]
-  },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  }
 });

@@ -7,6 +7,7 @@ const common = require("./webpack.config.common.server");
 
 module.exports = merge(common, {
   devtool: "eval-source-map",
+  mode: "development",
   entry: [
     "webpack/hot/poll?1000",
     path.resolve(__dirname, "../src/server/index.js")

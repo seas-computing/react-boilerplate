@@ -5,7 +5,7 @@ const common = require("./webpack.config.common.server");
 
 module.exports = merge(common, {
   bail: true,
-  // devtool: "source-map",
+  mode: "production",
   entry: [path.resolve(__dirname, "../src/server/index.js")],
   externals: [nodeExternals()]
 });

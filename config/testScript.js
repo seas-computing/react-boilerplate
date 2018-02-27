@@ -17,6 +17,7 @@ require("babel-register")({
   ]
 });
 require("ignore-styles");
+require("raf/polyfill");
 
 const Mocha = require("mocha");
 const readdirrecursive = require("fs-readdir-recursive");

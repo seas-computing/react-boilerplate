@@ -6,16 +6,15 @@ export const MONGO = {
   URI:
     process.env.NODE_ENV === "testing"
       ? "mongodb://localhost:28018/testing"
-      : "mongodb://localhost/application.",
+      : "mongodb://localhost/application",
   OPTIONS: {
     native_parser: true,
     poolSize: 5,
     // user: "baseUser",
     // pass: "password",
-    useMongoClient: true,
     autoIndex: true,
     reconnectTries: 4,
-    reconnectInternal: 1000
+    reconnectInterval: 1000
   },
   STORE_OPTIONS: {
     collection: "sessions",

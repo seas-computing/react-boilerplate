@@ -2,6 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const CircularDependencyPlugin = require("circular-dependency-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 module.exports = {
   name: "client",
   output: {
@@ -57,27 +58,6 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
-    }),
-    new CircularDependencyPlugin({
-      exclude: /node_modules/,
-      failOnError: true
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "common",
-      children: true,
-      minChunks: 2
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      minChunks: function(module) {
-        return module.context && module.context.includes("node_modules");
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "manifest",
-      minChunks: Infinity
     }),
     new HtmlWebpackPlugin({
       title: "SEAS Committees",
