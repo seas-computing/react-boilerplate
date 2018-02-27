@@ -10,7 +10,7 @@ export const initialState = {
   }
 };
 
-export const admin = (state = initialState, action) => {
+export const users = (state = initialState, action) => {
   switch (action.type) {
     case ACTIONS.SET_PERMISSION_LEVEL: {
       return {

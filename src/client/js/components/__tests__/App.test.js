@@ -4,21 +4,28 @@ import toJson from "enzyme-to-json";
 import { Provider } from "react-redux";
 import { expect } from "chai";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import App from "../App.js";
-import * as dummy from "../../../../../common/__tests__/data";
+import * as dummy from "../../../../common/__tests__/data/index";
 
 describe("App", function() {
+  let props;
   let wrapper;
   let unwrapped;
   let store;
+  const middleware = [thunk];
   beforeEach(function() {
-    store = configureStore()({});
+    store = configureStore(middleware)({});
+    props = {
+      currentId: "88888888",
+      store: store
+    };
     wrapper = shallow(
       <Provider store={store}>
-        <People {...props} />
+        <App {...props} />
       </Provider>
     );
-    unwrapped = shallow(<People.WrappedComponent {...props} />);
+    unwrapped = shallow(<App.WrappedComponent {...props} />);
   });
   describe("rendering", function() {
     it("Should render HOC correctly", function() {

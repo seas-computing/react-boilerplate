@@ -31,8 +31,8 @@ describe("UserSchema", function() {
         newUser = {
           HUID: dummy.HUID,
           email: dummy.email,
-          firstName: dummy.Person.firstName,
-          lastName: dummy.Person.lastName
+          firstName: dummy.string,
+          lastName: dummy.string
         };
         result = await db.model("User").addNew(newUser);
         await db.model("User").ensureIndexes();

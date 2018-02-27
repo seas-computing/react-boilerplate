@@ -1,14 +1,13 @@
 import { equal, deepEqual } from "assert";
-import { initialState, admin } from "../admin";
+import { initialState, users } from "../users";
 import * as ACTIONS from "../../constants/ActionTypes";
 import * as dummy from "../../../../common/__tests__/data";
-import * as STATUS from "../../constants/statusTypes";
 
-describe("Admin Reducer", function() {
+describe("Users Reducer", function() {
   let state;
   describe("initialState", function() {
     beforeEach(function() {
-      state = admin(undefined, {});
+      state = users(undefined, {});
     });
     it("Should initialize with the correct state", function() {
       deepEqual(state, initialState);
@@ -24,7 +23,7 @@ describe("Admin Reducer", function() {
       });
       describe("SET_PERMISSION_LEVEL", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.SET_PERMISSION_LEVEL,
             permission: dummy.adminUser.permission
           });
@@ -38,7 +37,7 @@ describe("Admin Reducer", function() {
       });
       describe("SET_CURRENT_USER", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.SET_CURRENT_USER,
             user: dummy.webUser
           });
@@ -52,7 +51,7 @@ describe("Admin Reducer", function() {
       });
       describe("SET_ALL_USERS", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.SET_ALL_USERS,
             users: dummy.users
           });
@@ -66,7 +65,7 @@ describe("Admin Reducer", function() {
       });
       describe("USER_ADDED", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.USER_ADDED,
             user: dummy.webUser
           });
@@ -89,7 +88,7 @@ describe("Admin Reducer", function() {
       });
       describe("USER_UPDATED", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.USER_UPDATED,
             user: { ...dummy.regularUser, name: dummy.string }
           });
@@ -107,7 +106,7 @@ describe("Admin Reducer", function() {
       });
       describe("USER_DELETED", function() {
         beforeEach(function() {
-          state = admin(testState, {
+          state = users(testState, {
             type: ACTIONS.USER_DELETED,
             user: dummy.regularUser
           });
