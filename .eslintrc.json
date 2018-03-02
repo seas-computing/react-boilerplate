@@ -1,0 +1,9 @@
+{
+  "parserOptions": {
+    "experimentalDecorators": true
+  },
+  "extends": "react-app",
+  "env": {
+    "mocha": true
+  }
+}
