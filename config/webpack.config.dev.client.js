@@ -19,8 +19,8 @@ module.exports = merge(common, {
     open: true,
     openPage: "app",
     proxy: {
-      "/api": "http://localhost:3020",
-      "/app/reports": "http://localhost:3020",
+      "/api": `http://localhost:3001`,
+      "/app/reports": `http://localhost:3001`,
       "/app": {
         target: "http://localhost:3000/index.html",
         pathRewrite: { "/app": "" }

@@ -50,7 +50,7 @@ export const CAS = {
 export const SERVER = {
   PROCESS_TITLE: "seas-application",
   HOST: "localhost",
-  PORT: 3020,
+  PORT: DEV_BUILD ? 3001 : 3020,
   LOG_LEVEL: "DEBUG",
   LOG_OUTPUT_TO_FILE: !DEV_BUILD, // if false, log output goes to console
   WORKER_COUNT: 1, // if 0, uses max number of processor cores

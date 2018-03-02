@@ -1,6 +1,5 @@
 const webpack = require("webpack");
 const path = require("path");
-const CircularDependencyPlugin = require("circular-dependency-plugin");
 
 module.exports = {
   name: "server",
