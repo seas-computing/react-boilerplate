@@ -1,9 +1,11 @@
 {
   "parserOptions": {
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "sourceType": "module"
   },
-  "extends": "react-app",
+  "extends": "plugin:react/recommended",
   "env": {
     "mocha": true
-  }
+  },
+  "plugins": ["react"]
 }
