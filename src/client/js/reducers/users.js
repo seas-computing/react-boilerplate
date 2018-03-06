@@ -1,3 +1,8 @@
+/**
+ * Redux User Reducer
+ * @module client/reducers/users
+ */
+
 import * as ACTIONS from "../constants/ActionTypes";
 export const initialState = {
   currentUser: {
@@ -9,6 +14,15 @@ export const initialState = {
     user: false
   }
 };
+
+/**
+ * User Reducer
+ * @function users
+ * @memberof module:client/reducers/users
+ * @param  {Object} [state=initialState] The application state
+ * @param  {Object} action               The action to take on the state
+ * @return {Object}                      The resulting state
+ */
 
 export const users = (state = initialState, action) => {
   switch (action.type) {

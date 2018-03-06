@@ -1,15 +1,24 @@
+/**
+ * Handles application logging
+ * @module Logger
+ */
+
 import fs from "fs";
 import util from "util";
 import chalk from "chalk";
 import { SERVER } from "../config";
 
+//Options for logging write streams
 let streamOpts = { flags: "a", encoding: "UTF-8" };
-// let accessLogger = fs.createWriteStream(SERVER.APP_LOG, streamOpts);
-// let errorLogger = fs.createWriteStream(SERVER.ERROR_LOG, streamOpts);
+
+//Create the actual write streams for access and errors
+let accessLogger = fs.createWriteStream(SERVER.APP_LOG, streamOpts);
+let errorLogger = fs.createWriteStream(SERVER.ERROR_LOG, streamOpts);
 
 /**
  * Enum for log levels.
  * @enum {number}
+ * @memberof module:Logger
  */
 const LogLevel = {
   SUPPRESS: 0,
@@ -22,6 +31,7 @@ const LogLevel = {
 /**
  * Enum for log colors.
  * @enum {string}
+ * @memberof module:Logger
  */
 const LogColor = {
   SUPPRESS: "white",
@@ -31,13 +41,22 @@ const LogColor = {
   DEBUG: "yellow"
 };
 
+/**
+ * Writes logs to streams
+ * @memberof module.Logger
+ * @prop {Stream} ACCESS - Stream for standard access logging
+ * @prop {Stream} ERROR - Stream for error logging
+ */
+
 let Logger = {
-  // ACCESS: accessLogger,
-  // ERROR: errorLogger
-  // LogLevel: function() {
-  //   return Levels;
-  // }
+  ACCESS: accessLogger,
+  ERROR: errorLogger
 };
+
+/*
+Loop through defined log levels, creating functions for each level that actually
+write the log data.
+ */
 
 for (let level of Object.keys(LogLevel)) {
   if (LogLevel[level] > 0) {

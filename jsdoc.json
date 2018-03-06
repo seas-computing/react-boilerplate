@@ -5,7 +5,7 @@
   },
   "source": {
     "include": ["src"],
-    "exclude": ["node_modules", "src/server/express/routes/api"],
+    "exclude": ["node_modules", "src/server/express/routes"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
@@ -24,6 +24,7 @@
     "monospaceLinks": true
   },
   "opts": {
+    "readme": "./DOCUMENTATION.md",
     "recurse": true,
     "destination": "./docs/app/",
     "template": "./node_modules/minami"

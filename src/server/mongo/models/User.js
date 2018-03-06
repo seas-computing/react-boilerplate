@@ -1,9 +1,29 @@
+/** Mongoose Schema for Users
+ * @module     server/mongo/models/User
+ * @requires   mongoose
+ */
+
 import { Schema } from "mongoose";
 
 /**
- * Enum for user access levels.
- * @enum {string}
+ * A data object that defines a user of the system.
+ * @typedef  {Object}                   UserData
+ * @memberof module:server/mongo/models/User
+ * @property {?string}                  [_id]
+ * @property {string}                   HUID
+ * @property {string}                   firstName
+ * @property {string}                   lastName
+ * @property {AccessLevel}   accessLevel
+ * @property {Object}                   [settings]
  */
+
+/**
+ * Enum for user access levels.
+ * @inner
+ * @enum          {string}
+ * @memberof      module:server/mongo/models/User
+ */
+
 const AccessLevel = {
   READ_ONLY: "Read-Only",
   PRIVILEGED: "Privileged",
@@ -16,7 +36,10 @@ for (let key of Object.keys(AccessLevel)) {
 
 /**
  * The Schema for a User.
+ * @const
+ * @memberof  module:server/mongo/models/User
  */
+
 export const UserSchema = new Schema(
   {
     HUID: { type: String, index: { unique: true } },
@@ -33,15 +56,16 @@ export const UserSchema = new Schema(
 );
 
 /**
- * Creates a new user with the given data. Then executes the given callback function, handing it
- * either an object that contains an error or the new user object.
- * @param {Object}           data
- * @param {string}           data.HUID
- * @param {string}           data.firstName
- * @param {string}           data.lastName
- * @param {User.AccessLevel} data.accessLevel
- * @param {Object}           [data.settings]
- * @param {Function}         cb
+ * Creates a new user with the given data and returns a Promise
+ * @static
+ * @async
+ * @function  addNew
+ * @memberof  module:server/mongo/models/User
+ * @param     {UserData}   data   The user to be added to the database
+ * @return    {Promise<UserData>} The mongo object for the saved user
+ * @throws    {ValidationError}   If Permission is invalid
+ * @throws    {MongoError}        If HUID is already in use
+ * @throws    {Error}             If anything else goes wrong
  */
 
 UserSchema.statics.addNew = async function(data) {
@@ -60,10 +84,15 @@ UserSchema.statics.addNew = async function(data) {
 };
 
 /**
- * Retrieves all of the users. Then executes the given callback function, handing it either an
- * object that contains an error or the array of user objects.
- * @param {Function} cb
+ * Retrieves all of the users in the database
+ * @static
+ * @async
+ * @function  getAll
+ * @memberof  module:server/mongo/models/User
+ * @return    {Promise<UserData[]>}  An array containing all users in the system
+ * @throws    {Error}             If data cannot be fetched
  */
+
 UserSchema.statics.getAll = async function getAll() {
   try {
     return await this.find().exec();
@@ -73,11 +102,16 @@ UserSchema.statics.getAll = async function getAll() {
 };
 
 /**
- * Retrieves the user with the given ID. Then executes the given callback function, handing it
- * either an object that contains an error or the user object.
- * @param {string}   userId
- * @param {Function} cb
+ * Retrieves the user with the given mongo ID
+ * @static
+ * @async
+ * @function  getOneById
+ * @memberof  module:server/mongo/models/User
+ * @param     {string}   userId  The mongoid for the user
+ * @return    {Promise<UserData>} The mongo data for the user
+ * @throws    {Error}    If the person cannot be found
  */
+
 UserSchema.statics.getOneById = async function getOne(userId) {
   try {
     return await this.findById(userId).exec();
@@ -87,11 +121,16 @@ UserSchema.statics.getOneById = async function getOne(userId) {
 };
 
 /**
- * Retrieves the user with the given HUID. Then executes the given callback function, handing it
- * either an object that contains an error or the user object.
- * @param {string}   HUID
- * @param {Function} cb
+ * Retrieves the user with the given HUID.
+ * @static
+ * @async
+ * @function  getOneByHUID
+ * @memberof  module:server/mongo/models/User
+ * @param     {string}      HUID  The 8-digit HUID for the user
+ * @returns   {Promise<UserData>}    The MongoData for the user
+ * @throws    {Error}       If the user cannot be found
  */
+
 UserSchema.statics.getOneByHUID = async function getOneByHUID(HUID) {
   try {
     return await this.findOne({ HUID: HUID }).exec();
@@ -101,18 +140,17 @@ UserSchema.statics.getOneByHUID = async function getOneByHUID(HUID) {
 };
 
 /**
- * Updates the user with the given ID, using the given data. Only fields present in the data object
- * will be updated. Then executes the given callback function, handing it either an object that
- * contains an error or the updated user object.
- * @param {string}          userId
- * @param {Object}          data
- * @param {string}          [data.HUID]
- * @param {string}          [data.firstName]
- * @param {string}          [data.lastName]
- * @param {UserAccessLevel} [data.accessLevel]
- * @param {Object}          [data.settings]
- * @param {Function}        cb
+ * Updates the user instance with the given data. Only fields present
+ * in the data object will be updated.
+ * @instance
+ * @async
+ * @function  update
+ * @memberof  module:server/mongo/models/User
+ * @param     {UserData}  data  The new data for the user
+ * @returns   {Promise<UserData>} The updated user
+ * @throws    {Error}     If the user cannot be updated
  */
+
 UserSchema.methods.update = async function update(data) {
   let user = this;
   try {
@@ -123,13 +161,19 @@ UserSchema.methods.update = async function update(data) {
     });
     return await user.save();
   } catch (err) {
-    throw new Error(`Unable to ubdate user with id ${user.id}\nError: ${err}`);
+    throw new Error(`Unable to update user with id ${user.id}\nError: ${err}`);
   }
 };
 
 /**
- * Deletes a person
- **/
+ * Deletes the user instance.
+ * @instance
+ * @async
+ * @function  delete
+ * @memberof  module:server/mongo/models/User
+ * @returns   {Promise<UserData>} The deleted user's data
+ * @throws    {Error}     If the user cannot be deleted
+ */
 
 UserSchema.methods.delete = async function() {
   let user = this;
@@ -139,39 +183,3 @@ UserSchema.methods.delete = async function() {
     throw new Error(`Could not delete user with id ${user.id}.\nError: ${err}`);
   }
 };
-//
-// /**
-//  * Updates the user using the given data. Only fields present in the data object will be updated.
-//  * Then executes the given callback function, handing it either an object that contains an error or
-//  * the updated user object.
-//  * @param {Object}           data
-//  * @param {string}           [data.HUID]
-//  * @param {string}           [data.firstName]
-//  * @param {string}           [data.lastName]
-//  * @param {User.AccessLevel} [data.accessLevel]
-//  * @param {Object}           [data.settings]
-//  * @param {Function}         cb
-//  */
-// UserSchema.methods.update = function updateMethod(data) {
-//   return new Promise((resolve, reject) => {
-//     let user = this;
-//     let properties = [
-//       "HUID",
-//       "firstName",
-//       "lastName",
-//       "accessLevel",
-//       "settings"
-//     ];
-//     for (let p of properties) {
-//       if (data[p] !== undefined) {
-//         user.set(p, data[p]);
-//       }
-//     }
-//     user
-//       .save()
-//       .then(doc => {
-//         resolve(doc);
-//       })
-//       .catch(error => reject({ error }));
-//   });
-// };

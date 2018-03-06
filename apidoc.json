@@ -1,5 +1,10 @@
 {
   "template": {
     "withCompare": false
+  },
+  "name": null,
+  "title": "SEAS Boilerplate REST API",
+  "header": {
+    "filename": "./DOCUMENTATION.md"
   }
 }

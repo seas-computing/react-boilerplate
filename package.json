@@ -68,7 +68,7 @@
     "posttest": "mongodb-runner stop --port=28018",
     "test:watch": "npm test -- --watch",
     "docs:app": "jsdoc --configure jsdoc.json",
-    "docs:api": "apidoc --silent --input ./src/server/express/routes/api --output ./docs/api/",
+    "docs:api": "apidoc --silent --input ./src/server/express/routes --output ./docs/api/",
     "docs": "run-s docs:*"
   },
   "devDependencies": {
