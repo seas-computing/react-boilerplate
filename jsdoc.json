@@ -1,15 +1,15 @@
 {
   "tags": {
     "allowUnknownTags": true,
-    "dictionaries": ["jsdoc", "closure"]
+    "dictionaries": ["jsdoc"]
   },
   "source": {
     "include": ["src"],
-    "exclude": ["node_modules"],
+    "exclude": ["node_modules", "src/server/express/routes/api"],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
-  "plugins": ["jsdoc-route-plugin", "node_modules/jsdoc-babel"],
+  "plugins": ["jsdoc-babel"],
   "babel": {
     "presets": ["react"],
     "plugins": [
@@ -21,10 +21,11 @@
   "sourceType": "module",
   "templates": {
     "cleverLinks": false,
-    "monospaceLinks": false
+    "monospaceLinks": true
   },
   "opts": {
     "recurse": true,
-    "destination": "./docs/"
+    "destination": "./docs/app/",
+    "template": "./node_modules/minami"
   }
 }

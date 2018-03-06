@@ -17,12 +17,24 @@ export const AppRouter = Router();
 /**
  * Returns information about the app, useful for making sure the server is configured as expected.
  *
- * @name Get App Data
- * @memberof module:routes/api/app
- * @route {GET} /api/app/
- * @response {Boolean} body.devMode - Whether CAS is in dev mode
- * @response {boolean} body.devBuild - Whether Express is using a dev build
- * @response {String} body.currentAcademicYear - The current academic year set in config.js
+ * @api {GET} /api/app/
+ * @apiName Get App Data
+ * @apiGroup App
+ *
+ * @apiSuccess {Boolean} devMode CAS is running in dev mode
+ * @apiSuccess {Boolean} devBuild Express is running in dev mode
+ * @apiSuccess {Number} currentAcademicYear Current academic year in config.js
+ *
+ * @apiSuccessExample Response Body:
+ *    HTTP/1.1 200 OK
+ *    {
+ *      devMode: true,
+ *      devBuild: true,
+ *      currentAcademicYear: 2018
+ *    }
+ *
+ * @apiUse ExpressError
+ * @apiPermission ReadOnly
  */
 AppRouter.get("/", function(req, res) {
   res.json({
