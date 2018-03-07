@@ -27,6 +27,6 @@
     "readme": "./DOCUMENTATION.md",
     "recurse": true,
     "destination": "./docs/app/",
-    "template": "./node_modules/minami"
+    "template": "./node_modules/docdash"
   }
 }
