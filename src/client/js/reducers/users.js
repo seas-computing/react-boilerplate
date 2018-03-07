@@ -4,15 +4,26 @@
  */
 
 import * as ACTIONS from "../constants/ActionTypes";
+
+/**
+ * Initial User State
+ * @memberof  module:client/reducers/users
+ * @const
+ * @property  {UserData[]}  allUsers  A list of all users in the system
+ * @property  {Boolean}  ajax  Flag indicating that an asynchronous request is in progress
+ * @property  {Object}  currentUser  details about the currently authenticated user
+ * @property  {String}  currentUser.id  currently authenticated user's id
+ * @property  {AccessLevel}  currentUser.permission  currently authenticated user's permission level
+ *
+ */
+
 export const initialState = {
   currentUser: {
     id: null,
     permission: null
   },
   allUsers: [],
-  ajax: {
-    user: false
-  }
+  ajax: false
 };
 
 /**
@@ -54,10 +65,7 @@ export const users = (state = initialState, action) => {
       return {
         ...state,
         allUsers: newUsers,
-        ajax: {
-          ...state.ajax,
-          user: false
-        }
+        ajax: false
       };
     }
     case ACTIONS.USER_ADDED: {
@@ -66,10 +74,7 @@ export const users = (state = initialState, action) => {
       return {
         ...state,
         allUsers: newUsers,
-        ajax: {
-          ...state.ajax,
-          user: false
-        }
+        ajax: false
       };
     }
     case ACTIONS.USER_DELETED: {
@@ -81,19 +86,13 @@ export const users = (state = initialState, action) => {
       return {
         ...state,
         allUsers: newUsers,
-        ajax: {
-          ...state.ajax,
-          user: false
-        }
+        ajax: false
       };
     }
     case ACTIONS.USER_UPLOADING: {
       return {
         ...state,
-        ajax: {
-          ...state.ajax,
-          user: true
-        }
+        ajax: true
       };
     }
     default:
