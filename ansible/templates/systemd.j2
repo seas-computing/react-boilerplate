@@ -1,0 +1,18 @@
+[Unit]
+Description={{ application_name }}
+After=mongod.service
+Before=shutdown.target
+
+[Service]
+WorkingDirectory={{ application_root }}/build
+ExecStart=/home/{{ ansible_ssh_user }}/.nvm/versions/node/v{{node_version}}/bin/node server.js
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=node-app
+User={{ ansible_ssh_user }}
+Group={{ ansible_ssh_user }}
+
+[Install]
+WantedBy=multi-user.target

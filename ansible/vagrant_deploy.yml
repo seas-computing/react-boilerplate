@@ -1,0 +1,130 @@
+---
+- hosts: default
+  vars_files:
+    - vagrant_vars.yml
+
+  tasks:
+  - name: Add EPEL repo
+    yum_repository:
+      name: EPEL
+      description: EPEL YUM repo
+      baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+      gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+    become: yes
+
+  - name: install packages
+    yum:
+      name:
+        - nginx
+        - git
+      state: present
+      update_cache: True
+    become: yes
+
+  - name: Check if nvm is installed
+    shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
+    ignore_errors: True
+    register: nvm_status
+
+  - name: Download nvm install file
+    get_url:
+      url: "{{ nvm_url }}"
+      dest: /home/{{ ansible_ssh_user }}/install.sh
+    when: nvm_status.rc != 0
+
+  - name: install nvm
+    shell: /bin/bash /home/{{ ansible_ssh_user }}/install.sh
+    when: nvm_status.rc != 0
+
+  - name: verify nvm is installed
+    shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
+
+  - name: Check default node version
+    shell: /bin/bash -c "source ~/.bashrc && command node -v"
+    ignore_errors: true
+    register: current_node
+
+  - name: install appropriate node version
+    shell: /bin/bash -c "source ~/.bashrc && nvm install {{ node_version }}"
+    args:
+      creates: /home/{{ ansible_ssh_user }}/.nvm/versions/node/v{{ node_version }}/bin/node
+    when: node_version not in current_node.stdout
+
+  - name: set installed node version to be default
+    shell: /bin/bash -c "source ~/.bashrc && nvm alias default {{ node_version }}"
+    args:
+      creates: /home/{{ ansible_ssh_user }}/.nvm/alias/default
+    when:  node_version not in current_node.stdout
+
+  - name: cleanup
+    file:
+      state: absent
+      dest: /home/{{ ansible_ssh_user }}/install.sh
+
+  - name: install preclean
+    block:
+    - file:
+       state: absent
+       path: "{{ application_root}}/node_modules"
+    - file:
+       state: absent
+       path: "{{ application_root}}/package-lock.json"
+
+  - name: npm install
+    shell: /bin/bash -c "source ~/.bashrc && npm install"
+    args:
+      chdir: "{{ application_root }}"
+
+  - name: Copy Config File
+    template:
+      src:  ./templates/config.j2
+      dest: "{{ application_root }}/src/server/config.js"
+      mode: 0664
+      force: yes
+
+  - name: npm build
+    shell: /bin/bash -c "source ~/.bashrc && npm run build"
+    args:
+      chdir: "{{ application_root }}"
+
+  - name: Create app service
+    template:
+      src: ./templates/systemd.j2
+      dest: /etc/systemd/system/{{ application_name }}.service
+      owner: root
+      group: root
+      mode: 0664
+    become: yes
+
+  - name: start and enable app
+    service:
+      name: "{{ application_name }}"
+      state: started
+      enabled: true
+    become: yes
+
+  - name: Create nginx proxy
+    template:
+      src: ./templates/nginx.j2
+      dest: /etc/nginx/conf.d/{{application_hostname}}.conf
+      owner: root
+      group: root
+      mode: 0755
+    register: nginx_config
+    become: yes
+
+  - name: start and enable nginx
+    service:
+      name: nginx
+      state: started
+      enabled: true
+    register: nginx_running
+    when: nginx_config.changed
+    become: yes
+
+  - name: restart nginx if needed
+    service:
+      name: nginx
+      state: restarted
+    when: nginx_config.changed and not nginx_running.changed
+    become: yes
