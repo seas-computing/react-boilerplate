@@ -85,14 +85,14 @@ const runMocha = () => {
   }
 };
 
-if (process.argv[2] === "--watch") {
+if (process.argv.includes("--watch")) {
   chokidar
     //watch the test files and add new ones to the list on creation
     .watch("src/**/*.test.js", {
       ignored: /(^|[/\\])\../,
       persistent: true
     })
-    .on("add", path => specs.push(path));
+    .on("add", file => specs.push(file));
   chokidar
     //watch all non-snapshot files in src
     .watch("src/", {
@@ -100,7 +100,7 @@ if (process.argv[2] === "--watch") {
       persistent: true
     })
     // run mocha whenever a file changes
-    .on("change", path => {
+    .on("change", file => {
       if (runner !== undefined) {
         runner.on("end", runMocha);
         runner.abort();
@@ -109,7 +109,7 @@ if (process.argv[2] === "--watch") {
       }
     })
     //run mocha once at instantiation
-    .on("ready", path => {
+    .on("ready", file => {
       runner = runMocha();
     })
     .on("error", error => console.log(`Watcher error: ${error}`));
