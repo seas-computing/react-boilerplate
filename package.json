@@ -72,7 +72,9 @@
     "docs:api": "apidoc --silent --input ./src/server/express/routes --output ./docs/api/",
     "docs:watch": "chokidar './src/**/*.js' -c 'npm run docs'",
     "docs:serve": "http-server ./docs -o -p 3300 --silent",
-    "docs:dev": "run-p docs:watch docs:serve"
+    "docs:dev": "run-p docs:watch docs:serve",
+    "vagrant": "vagrant up --provision",
+    "vagrant:restart": "vagrant rsync && vagrant provision"
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
