@@ -1,6 +1,5 @@
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const merge = require("webpack-merge");
 const common = require("./webpack.config.common.client");
 
