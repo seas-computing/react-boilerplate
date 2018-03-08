@@ -28,9 +28,9 @@ const matchDispatchToProps = dispatch => ({
 
 @connect(mapStateToProps, matchDispatchToProps)
 export default class App extends Component {
-  static PropTypes = {
+  static propTypes = {
     currentId: PropTypes.string,
-    store: PropTypes.obj
+    store: PropTypes.object
   };
   render() {
     const { currentId, store } = this.props;
