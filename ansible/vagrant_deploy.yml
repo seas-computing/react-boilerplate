@@ -17,6 +17,8 @@
       name:
         - nginx
         - git
+        - libsemanage-python
+        - libselinux-python
       state: present
       update_cache: True
     become: yes
@@ -40,7 +42,7 @@
     shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
 
   - name: Check default node version
-    shell: /bin/bash -c "source ~/.bashrc && command node -v"
+    shell: /bin/bash -c "source ~/.bashrc && node -v"
     ignore_errors: true
     register: current_node
 
@@ -61,14 +63,14 @@
       state: absent
       dest: /home/{{ ansible_ssh_user }}/install.sh
 
-  - name: install preclean
+  - name: preinstall
     block:
-    - file:
-       state: absent
-       path: "{{ application_root}}/node_modules"
-    - file:
-       state: absent
-       path: "{{ application_root}}/package-lock.json"
+      - file:
+         state: absent
+         path: "{{ application_root}}/node_modules"
+      - file:
+         state: absent
+         path: "{{ application_root}}/package-lock.json"
 
   - name: npm install
     shell: /bin/bash -c "source ~/.bashrc && npm install"
@@ -86,6 +88,13 @@
     shell: /bin/bash -c "source ~/.bashrc && npm run build"
     args:
       chdir: "{{ application_root }}"
+
+  - name: Allow nginx in selinux
+    seboolean:
+      name: httpd_can_network_connect
+      state: yes
+      persistent: yes
+    become: yes
 
   - name: Create app service
     template:

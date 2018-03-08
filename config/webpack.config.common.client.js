@@ -59,7 +59,7 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     }),
     new HtmlWebpackPlugin({
-      title: "SEAS Committees",
+      title: "SEAS Application",
       favicon: path.resolve(__dirname, "../public/favicon.ico"),
       inject: true,
       template: path.resolve(__dirname, "../public/index.html")

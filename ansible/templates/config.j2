@@ -1,6 +1,6 @@
 import path from "path";
 
-export const DEV_BUILD = process.env.NODE_ENV === "development";
+export const DEV_BUILD = {{dev_build}};
 
 export const MONGO = {
   URI: "mongodb://{{mongo_url}}/{{mongo_database}}",
@@ -9,7 +9,6 @@ export const MONGO = {
           poolSize: 5,
           user: "{{mongo_username}}",
           pass: "{{mongo_password}}",
-          useMongoClient: true,
           promiseLibrary: global.Promise
         },
   STORE_OPTIONS: {
