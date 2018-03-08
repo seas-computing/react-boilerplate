@@ -29,3 +29,5 @@ src/server/app.pid
 .idea
 *~
 .DS_STORE
+
+.vagrant
