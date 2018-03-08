@@ -82,8 +82,7 @@ UsersRouter.use((req, res, next) => {
  *
  *   @apiSuccessExample Response Body
  *    HTTP/1.1 200 OK
- *    {
- *      users: [
+ *      [
  *        {
  *          _id: "1a2b3c4d536f7a8b9c0d1a2",
  *          updatedAt: "2018-03-01T20:22:38.730Z",
@@ -109,7 +108,6 @@ UsersRouter.use((req, res, next) => {
  *          id: "2a1d0c9b8a7f6e5d4c3b2a1",
  *        },
  *      ]
- *    }
  */
 
 /**
@@ -152,7 +150,7 @@ UsersRouter.post("/new", async (req, res, next) => {
     return;
   }
   try {
-    let docs = await connection.model("User").addNew(req.body.user);
+    let docs = await connection.model("User").addNew(req.body);
     res.json(docs);
     res.end();
   } catch (err) {
@@ -173,7 +171,9 @@ UsersRouter.post("/new", async (req, res, next) => {
 
 UsersRouter.get("/all", async (req, res, next) => {
   if (req.session.user_accessLevel !== "Admin") {
-    res.status(401).send("Only admin users can access the list of users.");
+    res
+      .status(401)
+      .json({ error: "Only admin users can access the list of users." });
     return;
   }
   try {
@@ -199,7 +199,7 @@ UsersRouter.get("/all", async (req, res, next) => {
 
 UsersRouter.get("/:userId", async (req, res, next) => {
   if (req.session.user_accessLevel !== "Admin") {
-    res.status(401).send("Only admin users can access a user.");
+    res.status(401).send({ error: "Only admin users can access a user." });
     return;
   }
   try {

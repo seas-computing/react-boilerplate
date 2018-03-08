@@ -129,4 +129,12 @@ export const brokenUser = {
   settings: {}
 };
 
+export const newUser = {
+  HUID: "11223344",
+  firstName: "New",
+  lastName: "User",
+  email: "new@harvard.edu",
+  accessLevel: "Read-Only"
+};
+
 export const users = [regularUser, privilegedUser, adminUser];
