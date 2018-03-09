@@ -1,8 +1,10 @@
 ---
+# Uses the automatically declared vagrant host, "default"
 - hosts: default
   vars_files:
     - vagrant_vars.yml
 
+# Need EPEL to install nginx
   tasks:
   - name: Add EPEL repo
     yum_repository:
@@ -12,6 +14,17 @@
       gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
     become: yes
 
+# Create the mongodb repo for the correct version
+  - name: Add Mongo Repo
+    yum_repository:
+      name: mongodb-org-{{mongo_version}}
+      description: MongoDB Repository
+      baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{mongo_version}}/$basearch/
+      gpgcheck: yes
+      gpgkey: https://www.mongodb.org/static/pgp/server-{{mongo_version}}.asc
+    become: yes
+
+# Install packages needed to get up and running
   - name: install packages
     yum:
       name:
@@ -19,15 +32,28 @@
         - git
         - libsemanage-python
         - libselinux-python
+        - mongodb-org-server
+        - mongodb-org-shell
+        - policycoreutils-python
+        - python2-pip
       state: present
       update_cache: True
     become: yes
 
+# pymongo must be installed from pip to get correct version
+  - name: Install pymongo
+    pip:
+      name: pymongo
+      state: present
+    become: yes
+
+# first test for nvm
   - name: Check if nvm is installed
     shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
     ignore_errors: True
     register: nvm_status
 
+# if not there, download the file
   - name: Download nvm install file
     get_url:
       url: "{{ nvm_url }}"
@@ -41,6 +67,7 @@
   - name: verify nvm is installed
     shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
 
+# Check that the specified version of node is installed and defaulted
   - name: Check default node version
     shell: /bin/bash -c "source ~/.bashrc && node -v"
     ignore_errors: true
@@ -63,6 +90,14 @@
       state: absent
       dest: /home/{{ ansible_ssh_user }}/install.sh
 
+# We're Going to run the app from the /vagrant directory, which is automatically
+# rsynced by vagrant when the box comes up. In a real deployment, we would need
+# access to code.harvard to install via git, but this is the easiest way to get
+# it running locally.
+
+# Remove the node modules directory and the package-lock file to simulate a
+# clean install
+
   - name: preinstall
     block:
       - file:
@@ -77,6 +112,7 @@
     args:
       chdir: "{{ application_root }}"
 
+# add the proper configurations
   - name: Copy Config File
     template:
       src:  ./templates/config.j2
@@ -89,12 +125,73 @@
     args:
       chdir: "{{ application_root }}"
 
+# SELinux access needs to be configured for nginx and mongodb
   - name: Allow nginx in selinux
     seboolean:
       name: httpd_can_network_connect
       state: yes
       persistent: yes
     become: yes
+
+  - name: Allow mongo in selinux
+    seport:
+      ports: 27017
+      proto: tcp
+      setype: mongod_port_t
+      state: present
+    become: yes
+
+# We're running mongodb inside the vm to allow for a more portable environment.
+# A production deployment would need to connect to our external mongodb server.
+# The data in this database will be lost when the vm goes down, so as a project
+# matures it may make sense to create a test database and import via /bin/mongo
+# when it comes online.
+
+  - name: Start mongod
+    service:
+      name: mongod
+      state: started
+      enabled: true
+    become: yes
+
+# Mongodb allows a first user to be created without authentication (the
+# "localhost exception"). This check ensures that the playbook can be re-run
+# without hitting authentication errors.
+#
+# See: https://github.com/ansible/ansible/issues/33832
+
+  - name: Check if admin already exists
+    shell: /bin/mongo --eval 'db.getUsers()' admin
+    ignore_errors: true
+    register: getusers
+    changed_when: false
+
+  - name: create admin user
+    mongodb_user:
+      database: admin
+      name: "{{ansible_ssh_user}}"
+      password: None
+      state: present
+      roles: dbAdmin
+    when: getusers.rc == 0
+
+# Add the database for the application, along with a user account for the app
+  - name: create app database and user account
+    mongodb_user:
+      database: "{{mongo_database}}"
+      name: "{{mongo_username}}"
+      password: "{{mongo_password}}"
+      login_user: "{{ansible_ssh_user}}"
+      login_password: None
+      state: present
+      roles: readWrite
+
+# Create the users collection for the application, which will allow for mocking
+# CAS access
+  - name: Add Users Collection
+    shell: /bin/mongo {{mongo_url}}/{{mongo_database}} --eval {{create_user|quote}}
+
+# Use systemd to keep the app running
 
   - name: Create app service
     template:
@@ -111,6 +208,9 @@
       state: started
       enabled: true
     become: yes
+
+# proxy the output to port 80 (guest), which vagrant is mapping to port 8080 on
+# the host.
 
   - name: Create nginx proxy
     template:
