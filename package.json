@@ -74,7 +74,7 @@
     "docs:serve": "http-server ./docs -o -p 3300 --silent",
     "docs:dev": "run-p docs:watch docs:serve",
     "vagrant": "vagrant up --provision",
-    "vagrant:restart": "vagrant rsync && vagrant provision"
+    "vagrant:reload": "vagrant rsync && vagrant provision"
   },
   "devDependencies": {
     "apidoc": "^0.17.6",

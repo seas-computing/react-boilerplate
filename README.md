@@ -36,6 +36,22 @@ npm run start
 
 Then view the app at localhost:3000. This will watch your code, recompile on changes, and hot reload changes in the browser.
 
+### Vagrant Build
+
+To run the app inside a vagrant VM, use:
+
+```bash
+npm run vagrant
+```
+
+and open localhost:8080
+
+To reload the vagrant server, run:
+
+```bash
+npm run vagrant:reload
+```
+
 ### Testing
 
 ```bash
