@@ -95,17 +95,12 @@
 # access to code.harvard to install via git, but this is the easiest way to get
 # it running locally.
 
-# Remove the node modules directory and the package-lock file to simulate a
-# clean install
+# Remove the node modules directory to simulate a clean install
 
-  - name: preinstall
-    block:
-      - file:
-         state: absent
-         path: "{{ application_root}}/node_modules"
-      - file:
-         state: absent
-         path: "{{ application_root}}/package-lock.json"
+  - name: clean node_modules
+    file:
+     path: "{{ application_root}}/node_modules"
+     state: absent
 
   - name: npm install
     shell: /bin/bash -c "source ~/.bashrc && npm install"
