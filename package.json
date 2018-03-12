@@ -64,7 +64,6 @@
     "pretest": "cross-env MONGODB_VERSION=\"3.0.12\" mongodb-runner start --port=28018",
     "test": "cross-env REPORTER=spec node config/testRunner.js",
     "test:xunit": "cross-env REPORTER=mocha-jenkins-reporter JUNIT_REPORT_PATH=test_results.xml nyc node config/testRunner.js",
-    "test:jenkins": "run-s pretest test:xunit posttest",
     "posttest": "mongodb-runner stop --port=28018",
     "test:watch": "npm test -- --watch",
     "docs": "run-s docs:app docs:api",

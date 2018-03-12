@@ -11,7 +11,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "npm run test:jenkins"
+                sh "npm run pretest"
+                sh "npm run test:xunit"
+                sh "npm run posttest:
             }
         }
     }
