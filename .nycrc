@@ -1,0 +1,15 @@
+{
+  "description": "Configuration for test coverage",
+  "nyc": {
+    "check-coverage": true,
+    "lines": 75,
+    "statements": 75,
+    "functions": 75
+  },
+  "include": ["src/**/*.js"],
+  "cache": false,
+  "clean": true,
+  "instrument": true,
+  "sourceMap": true,
+  "reporter": "cobertura"
+}

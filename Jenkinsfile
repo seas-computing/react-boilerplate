@@ -11,15 +11,14 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "npm run pretest"
-                sh "npm run test:xunit"
-                sh "npm run posttest"
+                sh "npm run test:jenkins"
             }
         }
     }
     post {
         always {
             junit "test_results.xml"
+            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
         }
     }
 }
