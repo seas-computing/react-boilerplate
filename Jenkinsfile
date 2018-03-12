@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh "npm run pretest"
                 sh "npm run test:xunit"
-                sh "npm run posttest:
+                sh "npm run posttest"
             }
         }
     }
