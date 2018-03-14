@@ -1,6 +1,6 @@
 # SEAS React Boilerplate
 
-![Jenkins](https://img.shields.io/jenkins/s/https/jenkins.qa.ubuntu.com/view/Precise/view/All%20Precise/job/precise-desktop-amd64_default.svg)
+![Jenkins](https://jenkins.seas.harvard.edu/buildStatus/icon?job=seas-react-boilerplate/master)
 
 This is a starting point for javascript applications developed by the SEAS Applications Development Team.
 
