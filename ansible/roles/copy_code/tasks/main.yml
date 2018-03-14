@@ -1,0 +1,24 @@
+---
+  # first we need to move our code into the appropriate directory on the remote
+- name: Sync code to server
+  synchronize:
+    src: "../../../../"
+    dest: "{{ application_root }}"
+    delete: yes
+    rsync_opts:
+      - "--exclude=.git"
+      - "--exclude=.nyc_output"
+      - "--exclude=.vagrant"
+      - "--exclude=ansible"
+      - "--exclude=build"
+      - "--exclude=coverage"
+      - "--exclude=docs"
+      - "--exclude=node_modules"
+
+- name: chown application directory
+  file:
+    path: "{{ application_root }}"
+    state: directory
+    recurse: yes
+    owner: "{{ application_name }}"
+    group: "{{ application_name }}"

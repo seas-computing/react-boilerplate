@@ -1,0 +1,43 @@
+---
+# first test for nvm
+- name: Check if nvm is installed
+  shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
+  ignore_errors: True
+  register: nvm_status
+
+# if not there, download the file
+- name: Download nvm install file
+  get_url:
+    url: "{{ nvm_url }}"
+    dest: /home/{{ application_name }}/install.sh
+  when: nvm_status.rc != 0
+
+- name: install nvm
+  shell: /bin/bash /home/{{ application_name }}/install.sh
+  when: nvm_status.rc != 0
+
+- name: verify nvm is installed
+  shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
+
+# Check that the specified version of node is installed and defaulted
+- name: Check default node version
+  shell: /bin/bash -c "source ~/.bashrc && node -v"
+  ignore_errors: true
+  register: current_node
+
+- name: install appropriate node version
+  shell: /bin/bash -c "source ~/.bashrc && nvm install {{ node_version }}"
+  args:
+    creates: /home/{{ application_name }}/.nvm/versions/node/v{{ node_version }}/bin/node
+  when: node_version not in current_node.stdout
+
+- name: set installed node version to be default
+  shell: /bin/bash -c "source ~/.bashrc && nvm alias default {{ node_version }}"
+  args:
+    creates: /home/{{ application_name }}/.nvm/alias/default
+  when:  node_version not in current_node.stdout
+
+- name: cleanup
+  file:
+    state: absent
+    dest: /home/{{ application_name }}/install.sh

@@ -1,0 +1,18 @@
+---
+- name: npm install
+  shell: /bin/bash -c "source ~/.bashrc && npm install"
+  args:
+    chdir: "{{ application_root }}"
+
+# add the proper configurations
+- name: Copy Config File
+  template:
+    src:  config.j2
+    dest: "{{ application_root }}/src/server/config.js"
+    mode: 0664
+    force: yes
+
+- name: npm build
+  shell: /bin/bash -c "source ~/.bashrc && npm run build"
+  args:
+    chdir: "{{ application_root }}"

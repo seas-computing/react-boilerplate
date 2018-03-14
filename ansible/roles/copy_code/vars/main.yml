@@ -1,0 +1,10 @@
+---
+rsync_ignore:
+  - .git
+  - node_modules
+  - .nyc_output
+  - .vagrant
+  - ansible
+  - build
+  - coverage
+  - docs

@@ -1,16 +1,12 @@
 ---
+ansible_host: 127.0.0.1
+ansible_ssh_port: 2222
+ansbile_ssh_user: vagrant
+ansible_ssh_private_key_file: ../.vagrant/machines/vagrant/virtualbox/private_key
 dev_build: "true"
-node_version: 8.9.4
-mongo_username: developer
-mongo_password: password
 mongo_url: localhost
-mongo_database: development
-application_url: https://dev.seas.harvard.edu
-application_root: /vagrant
-application_name: dev-project
 application_port: 3001
 application_hostname: localhost
-nvm_url: https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh
 mongo_version: 3.6
 create_user: >
   db.users.insert({

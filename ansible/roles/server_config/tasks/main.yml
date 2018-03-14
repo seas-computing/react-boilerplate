@@ -1,0 +1,41 @@
+---
+# Need EPEL to install nginx
+- name: Add EPEL repo
+  yum_repository:
+    name: EPEL
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+
+# Install packages needed to get up and running
+- name: install packages
+  yum:
+    name:
+      - nginx
+      - git
+      - libsemanage-python
+      - libselinux-python
+      - policycoreutils-python
+      - python2-pip
+    state: present
+    update_cache: True
+
+- name: Create application user
+  user:
+    name: "{{application_name}}"
+    createhome: yes
+    generate_ssh_key: yes
+
+- name: Allow nginx in selinux
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+
+- name: Create application directory
+  file:
+    path: "{{ application_root }}"
+    owner: "{{ application_name }}"
+    group: "{{ application_name }}"
+    mode: 0755
+    state: directory
