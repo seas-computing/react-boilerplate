@@ -17,7 +17,7 @@ UsersRouter.use((req, res, next) => {
 });
 
 /**
- * @apiDefine SingleUserRequest
+ * @apiDefine  SingleUserRequest
  * @apiParam  {String}  HUID 8-digit Harvard ID
  * @apiParam  {String}  firstName User's first name
  * @apiParam  {String}  lastName User's last name
@@ -48,7 +48,7 @@ UsersRouter.use((req, res, next) => {
  * @apiSuccess  {Number}  __v number of revisions to user
  * @apiSuccess  {String}  accessLevel User permission level
  *
- * @apiSuccessExample Response Body
+ * @apiSuccessExample  Response Body
  *    HTTP/1.1 200 OK
  *    {
  *      _id: "1a2b3c4d536f7a8b9c0d1a2",
@@ -112,12 +112,12 @@ UsersRouter.use((req, res, next) => {
 
 /**
  * Returns information about the currently authenticated user
- * @api {GET} /api/users/current
- * @apiName GetUser
- * @apiGroup User
- * @apiUse SingleUserResponse
- * @apiUse ExpressError
- * @apiPermission ReadOnly
+ * @api {GET}  /api/users/current
+ * @apiName  GetUser
+ * @apiGroup  User
+ * @apiUse  SingleUserResponse
+ * @apiUse  ExpressError
+ * @apiPermission  ReadOnly
  */
 
 UsersRouter.get("/current", async (req, res, next) => {
@@ -136,12 +136,12 @@ UsersRouter.get("/current", async (req, res, next) => {
  * Adds a new user defined in the request body
  * @api  {POST}  /api/users/new
  * @apiName  AddUser
- * @apiGroup User
- * @apiUse SingleUserResponse
- * @apiUse SingleUserRequest
- * @apiUse ExpressError
- * @apiUse PermissionError
- * @apiPermission Admin
+ * @apiGroup  User
+ * @apiUse  SingleUserResponse
+ * @apiUse  SingleUserRequest
+ * @apiUse  ExpressError
+ * @apiUse  PermissionError
+ * @apiPermission  Admin
  */
 
 UsersRouter.post("/new", async (req, res, next) => {
@@ -160,13 +160,13 @@ UsersRouter.post("/new", async (req, res, next) => {
 
 /**
  * Returns all users in the system
- * @api {GET} /api/users/all
- * @apiName AllUsers
- * @apiGroup User
- * @apiUse SingleUserResponse
- * @apiUse ExpressError
- * @apiUse PermissionError
- * @apiPermission Admin
+ * @api {GET}  /api/users/all
+ * @apiName  AllUsers
+ * @apiGroup  User
+ * @apiUse  SingleUserResponse
+ * @apiUse  ExpressError
+ * @apiUse  PermissionError
+ * @apiPermission  Admin
  */
 
 UsersRouter.get("/all", async (req, res, next) => {
@@ -187,14 +187,14 @@ UsersRouter.get("/all", async (req, res, next) => {
 
 /**
  * Returns information about the user with given id
- * @api {GET} /api/users/:userId
- * @apiName GetOneUser
- * @apiGroup User
- * @apiParam {String} userId User's MongoId
- * @apiUse SingleUserResponse
- * @apiUse ExpressError
- * @apiUse PermissionError
- * @apiPermission Admin
+ * @api  {GET}  /api/users/:userId
+ * @apiName  GetOneUser
+ * @apiGroup  User
+ * @apiParam  {String}  userId  User's MongoId
+ * @apiUse  SingleUserResponse
+ * @apiUse  ExpressError
+ * @apiUse  PermissionError
+ * @apiPermission  Admin
  */
 
 UsersRouter.get("/:userId", async (req, res, next) => {
@@ -213,15 +213,15 @@ UsersRouter.get("/:userId", async (req, res, next) => {
 
 /**
  * Update the user with given id
- * @api {PUT} /api/users/:userId
- * @apiName UpdateOneUser
- * @apiGroup User
- * @apiParam {String} userId User's MongoId
- * @apiUse SingleUserResponse
- * @apiUse SingleUserRequest
- * @apiUse ExpressError
- * @apiUse PermissionError
- * @apiPermission Admin
+ * @api  {PUT}  /api/users/:userId
+ * @apiName  UpdateOneUser
+ * @apiGroup  User
+ * @apiParam  {String}  userId  User's MongoId
+ * @apiUse  SingleUserResponse
+ * @apiUse  SingleUserRequest
+ * @apiUse  ExpressError
+ * @apiUse  PermissionError
+ * @apiPermission  Admin
  */
 
 UsersRouter.put("/:userId", async (req, res, next) => {
@@ -241,14 +241,14 @@ UsersRouter.put("/:userId", async (req, res, next) => {
 
 /**
  * Delete the user with given id
- * @api {DELETE} /api/users/:userId
- * @apiName DeleteOneUser
- * @apiGroup User
- * @apiParam {String} userId User's MongoId
- * @apiUse SingleUserResponse
- * @apiUse ExpressError
- * @apiUse PermissionError
- * @apiPermission Admin
+ * @api  {DELETE}  /api/users/:userId
+ * @apiName  DeleteOneUser
+ * @apiGroup  User
+ * @apiParam  {String}  userId  User's MongoId
+ * @apiUse  SingleUserResponse
+ * @apiUse  ExpressError
+ * @apiUse  PermissionError
+ * @apiPermission  Admin
  */
 
 UsersRouter.delete("/:userId", async (req, res, next) => {

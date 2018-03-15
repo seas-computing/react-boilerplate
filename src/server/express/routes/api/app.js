@@ -1,31 +1,20 @@
-/** Express routes for app api
- * @module routes/api/app
- * @requires express
- */
-
 import { Router } from "express";
 import { EXPRESS, CAS, APP } from "../../../config";
 
-/**
- * Express Router for the App API
- * @name AppRouter
- * @memberof module:routes/api/app
- * @const
- */
 export const AppRouter = Router();
 
 /**
  * Returns information about the app, useful for making sure the server is configured as expected.
  *
  * @api {GET} /api/app/
- * @apiName Get App Data
- * @apiGroup App
+ * @apiName  Get App Data
+ * @apiGroup  App
  *
- * @apiSuccess {Boolean} devMode CAS is running in dev mode
- * @apiSuccess {Boolean} devBuild Express is running in dev mode
- * @apiSuccess {Number} currentAcademicYear Current academic year in config.js
+ * @apiSuccess  {Boolean}  devMode  CAS is running in dev mode
+ * @apiSuccess  {Boolean}  devBuild  Express is running in dev mode
+ * @apiSuccess  {Number}  currentAcademicYear  Current academic year in config.js
  *
- * @apiSuccessExample Response Body:
+ * @apiSuccessExample  Response Body:
  *    HTTP/1.1 200 OK
  *    {
  *      devMode: true,
@@ -33,8 +22,8 @@ export const AppRouter = Router();
  *      currentAcademicYear: 2018
  *    }
  *
- * @apiUse ExpressError
- * @apiPermission ReadOnly
+ * @apiUse  ExpressError
+ * @apiPermission  ReadOnly
  */
 AppRouter.get("/", function(req, res) {
   res.json({

@@ -1,13 +1,13 @@
 /**
  * User Selectors
- * @module client/selectors/users
+ * @module  client/selectors/users
  */
 
 import { createSelector } from "reselect";
 /**
  * Returns the complete user list from the state
- * @method getUserList
- * @memberof module:client/selectors/users
+ * @method  getUserList
+ * @memberof  module:client/selectors/users
  * @private
  * @param  {object}  state  Redux state
  * @return  {UserData[]}  A list of all users
@@ -27,8 +27,8 @@ const getCurrentUserId = state => state.admin.currentUser.id;
 
 /**
  * Selected that returns the current user data
- * @memberof module:client/selectors/users
- * @method getThisUsersData
+ * @memberof  module:client/selectors/users
+ * @method  getThisUsersData
  * @param  {Object}  state  current redux state
  * @returns  {UserData}  The current user's data
  */
@@ -42,8 +42,8 @@ export const getThisUsersData = createSelector(
 );
 /**
  * Selector that returns all users who are not the currently authenticated user
- * @memberof module:client/selectors/users
- * @method getAllOtherUsers
+ * @memberof  module:client/selectors/users
+ * @method  getAllOtherUsers
  * @param  {Object}  state  current redux state
  * @returns  {UserData[]}  A list of other users
  */

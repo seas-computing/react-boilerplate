@@ -1,14 +1,14 @@
 /** Mongoose Schema for Users
- * @module     server/mongo/models/User
- * @requires   mongoose
+ * @module  server/mongo/models/User
+ * @requires  mongoose
  */
 
 import { Schema } from "mongoose";
 
 /**
  * Enum for user access levels.
- * @enum          {string}
- * @memberof      module:server/mongo/models/User
+ * @enum  {string}
+ * @memberof  module:server/mongo/models/User
  */
 
 const AccessLevel = {
@@ -23,8 +23,14 @@ for (let key of Object.keys(AccessLevel)) {
 
 /**
  * The Schema for a User.
- * @const
+ * @const {Schema} UserSchema
  * @memberof  module:server/mongo/models/User
+ * @prop  HUID  {String}  The user's Harvard ID
+ * @prop  firstName  {String}  The user's first name
+ * @prop  lastName  {String}  The user's last name
+ * @prop  email  {String}  The user's Harvard email
+ * @prop  accessLevel  {String}  The user's permission level
+ * @prop  settings  {Object}  Any additional settings
  */
 
 export const UserSchema = new Schema(
@@ -48,11 +54,11 @@ export const UserSchema = new Schema(
  * @async
  * @function  addNew
  * @memberof  module:server/mongo/models/User
- * @param     {UserData}   data   The user to be added to the database
- * @return    {Promise<UserData>} The mongo object for the saved user
- * @throws    {ValidationError}   If Permission is invalid
- * @throws    {MongoError}        If HUID is already in use
- * @throws    {Error}             If anything else goes wrong
+ * @param  {UserData}  data  The user to be added to the database
+ * @return  {Promise<UserData>}  The mongo object for the saved user
+ * @throws  {ValidationError}  If Permission is invalid
+ * @throws  {MongoError}  If HUID is already in use
+ * @throws  {Error}  If anything else goes wrong
  */
 
 UserSchema.statics.addNew = async function(data) {
@@ -76,8 +82,8 @@ UserSchema.statics.addNew = async function(data) {
  * @async
  * @function  getAll
  * @memberof  module:server/mongo/models/User
- * @return    {Promise<UserData[]>}  An array containing all users in the system
- * @throws    {Error}             If data cannot be fetched
+ * @return  {Promise<UserData[]>}  An array containing all users in the system
+ * @throws  {Error}  If data cannot be fetched
  */
 
 UserSchema.statics.getAll = async function getAll() {
@@ -94,9 +100,9 @@ UserSchema.statics.getAll = async function getAll() {
  * @async
  * @function  getOneById
  * @memberof  module:server/mongo/models/User
- * @param     {string}   userId  The mongoid for the user
- * @return    {Promise<UserData>} The mongo data for the user
- * @throws    {Error}    If the person cannot be found
+ * @param  {string}  userId  The mongoid for the user
+ * @return  {Promise<UserData>}  The mongo data for the user
+ * @throws  {Error} If the person cannot be found
  */
 
 UserSchema.statics.getOneById = async function getOne(userId) {
@@ -113,9 +119,9 @@ UserSchema.statics.getOneById = async function getOne(userId) {
  * @async
  * @function  getOneByHUID
  * @memberof  module:server/mongo/models/User
- * @param     {string}      HUID  The 8-digit HUID for the user
- * @returns   {Promise<UserData>}    The MongoData for the user
- * @throws    {Error}       If the user cannot be found
+ * @param  {string}  HUID  The 8-digit HUID for the user
+ * @returns  {Promise<UserData>}  The MongoData for the user
+ * @throws  {Error}  If the user cannot be found
  */
 
 UserSchema.statics.getOneByHUID = async function getOneByHUID(HUID) {
@@ -133,9 +139,9 @@ UserSchema.statics.getOneByHUID = async function getOneByHUID(HUID) {
  * @async
  * @function  update
  * @memberof  module:server/mongo/models/User
- * @param     {UserData}  data  The new data for the user
- * @returns   {Promise<UserData>} The updated user
- * @throws    {Error}     If the user cannot be updated
+ * @param  {UserData}  data  The new data for the user
+ * @returns  {Promise<UserData>}  The updated user
+ * @throws  {Error}  If the user cannot be updated
  */
 
 UserSchema.methods.update = async function update(data) {
@@ -158,8 +164,8 @@ UserSchema.methods.update = async function update(data) {
  * @async
  * @function  delete
  * @memberof  module:server/mongo/models/User
- * @returns   {Promise<UserData>} The deleted user's data
- * @throws    {Error}     If the user cannot be deleted
+ * @returns  {Promise<UserData>}  The deleted user's data
+ * @throws  {Error}  If the user cannot be deleted
  */
 
 UserSchema.methods.delete = async function() {

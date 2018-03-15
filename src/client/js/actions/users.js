@@ -1,7 +1,7 @@
 /**
  * Redux User Actions
- * @module client/actions/users
- * @see    module:client/reducers/users
+ * @module  client/actions/users
+ * @see  module:client/reducers/users
  */
 
 import * as api from "../api";
@@ -10,10 +10,10 @@ import { errorMessage } from "./errors";
 
 /**
  * Generate an action to fill in a list of all users
- * @method setAllUsers
- * @memberof module:client/actions/users
- * @param  {UserData[]}  users - An array of all users in the system
- * @return {Object}              Action to populate the user list
+ * @event  module:client/actions/users.setAllUsers
+ * @memberof  module:client/actions/users
+ * @param  {UserData[]}  users  An array of all users in the system
+ * @return  {Action}  Action to populate the user list
  */
 
 export const setAllUsers = users => ({
@@ -23,10 +23,10 @@ export const setAllUsers = users => ({
 
 /**
  * Generate an action to add a user to the list
- * @method userAdded
- * @memberof module:client/actions/users
- * @param  {UserData}  user - User to be added
- * @return {Object}           Action to add the user
+ * @event  module:client/actions/users.userAdded
+ * @memberof  module:client/actions/users
+ * @param  {UserData}  user  User to be added
+ * @return  {Action} Action to add the user
  */
 
 export const userAdded = user => ({
@@ -36,11 +36,11 @@ export const userAdded = user => ({
 
 /**
  * Generate an action to update a user in the list
- * @method userUpdated
- * @memberof module:client/actions/users
- * @param  {UserData}    user - user to be replaced
- * @return {Object}           Action to replace the updated user
- */
+ * @event  module:client/actions/users.userUpdated
+ * @memberof  module:client/actions/users
+ * @param  {UserData}  user  user to be replaced
+ * @return  {Action}  Action to replace the updated user
+ */ Action;
 
 export const userUpdated = user => ({
   type: types.USER_UPDATED,
@@ -49,11 +49,12 @@ export const userUpdated = user => ({
 
 /**
  * Generates an action to delete a user from the list
- * @method userDeleted
- * @memberof module:client/actions/users
- * @param  {UserData}    user - user to remove
- * @return {Object}             Action to remove the user
+ * @event  module:client/actions/users.userDeleted
+ * @memberof  module:client/actions/users
+ * @param  {UserData}    user  user to remove
+ * @return  {Action}  Action to remove the user
  */
+
 export const userDeleted = user => ({
   type: types.USER_DELETED,
   user
@@ -61,10 +62,10 @@ export const userDeleted = user => ({
 
 /**
  * Generates an action to set the current user
- * @method setCurrentUser
- * @memberof module:client/actions/users
- * @param  {UserData}    user - current user
- * @return {Object}             Action to set the current user
+ * @event  module:client/actions/users.setCurrentUser
+ * @memberof  module:client/actions/users
+ * @param  {UserData}  user  current user
+ * @return  {Action}  Action to set the current user
  */
 export const setCurrentUser = user => ({
   type: types.SET_CURRENT_USER,
@@ -84,9 +85,12 @@ export const userUploading = user => ({
 /**
  * Push a new user to the server and dispatch an action
  * @async
- * @function saveNewUser
- * @memberof module:client/actions/users
- * @param  {UserData}    user - The userdata to send to the server
+ * @function  saveNewUser
+ * @memberof  module:client/actions/users
+ * @param  {UserData}  user  The userdata to send to the server
+ * @fires  module:client/actions/users.userAdded
+ * @fires  module:client/actions/users.userUploading
+ * @fires  module:client/actions/errors.errorMessage
  */
 
 export const saveNewUser = user => async dispatch => {
@@ -102,9 +106,12 @@ export const saveNewUser = user => async dispatch => {
 /**
  * Update a user on the server and dispatch an action
  * @async
- * @function updateUser
- * @memberof module:client/actions/users
- * @param  {UserData}    user - The userdata to send to the server
+ * @function  updateUser
+ * @memberof  module:client/actions/users
+ * @param  {UserData}  user  The userdata to send to the server
+ * @fires  module:client/actions/users.userUpdated
+ * @fires  module:client/actions/users.userUploading
+ * @fires  module:client/actions/errors.errorMessage
  */
 
 export const updateUser = user => async dispatch => {
@@ -120,8 +127,10 @@ export const updateUser = user => async dispatch => {
 /**
  * Get a complete list of users from the server and dispatch an action
  * @async
- * @function fetchAllUsers
- * @memberof module:client/actions/users
+ * @function  fetchAllUsers
+ * @memberof  module:client/actions/users
+ * @fires  module:client/actions/users.setAllUsers
+ * @fires  module:client/actions/errors.errorMessage
  */
 
 export const fetchAllUsers = () => async dispatch => {
@@ -136,8 +145,10 @@ export const fetchAllUsers = () => async dispatch => {
 /**
  * Get the currently authenticated user from the server and dispatch an action
  * @async
- * @function fetchCurrentUser
- * @memberof module:client/actions/users
+ * @function  fetchCurrentUser
+ * @memberof  module:client/actions/users
+ * @fires  module:client/actions/users.setCurrentUser
+ * @fires  module:client/actions/errors.errorMessage
  */
 
 export const fetchCurrentUser = () => async dispatch => {
@@ -153,9 +164,12 @@ export const fetchCurrentUser = () => async dispatch => {
 /**
  * Get the currently authenticated user from the server and dispatch an action
  * @async
- * @function deleteUser
- * @memberof module:client/actions/users
- * @param   {String} userId - mongo Id for the user to be deleted
+ * @function  deleteUser
+ * @memberof  module:client/actions/users
+ * @param  {String}  userId  mongo Id for the user to be deleted
+ * @fires  module:client/actions/users.userDeleted
+ * @fires  module:client/actions/users.userUploading
+ * @fires  module:client/actions/errors.errorMessage
  */
 
 export const deleteUser = userId => async dispatch => {

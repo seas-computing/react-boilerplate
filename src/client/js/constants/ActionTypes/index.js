@@ -1,7 +1,7 @@
 /**
  * String constant used to identify state changes in redux
  * @const
- * @typedef {string} ActionType
+ * @typedef  {string}  ActionType
  */
 
 export * from "./users";

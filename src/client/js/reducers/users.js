@@ -1,6 +1,7 @@
 /**
  * Redux User Reducer
- * @module client/reducers/users
+ * @module  client/reducers/users
+ * @see  module:client/actions/users
  */
 
 import * as ACTIONS from "../constants/ActionTypes";
@@ -14,7 +15,6 @@ import * as ACTIONS from "../constants/ActionTypes";
  * @property  {Object}  currentUser  details about the currently authenticated user
  * @property  {String}  currentUser.id  currently authenticated user's id
  * @property  {AccessLevel}  currentUser.permission  currently authenticated user's permission level
- *
  */
 
 export const initialState = {
@@ -28,11 +28,17 @@ export const initialState = {
 
 /**
  * User Reducer
- * @function users
- * @memberof module:client/reducers/users
- * @param  {Object} [state=initialState] The application state
- * @param  {Object} action               The action to take on the state
- * @return {Object}                      The resulting state
+ * @function  users
+ * @memberof  module:client/reducers/users
+ * @param  {Object}  [state=initialState]  The application state
+ * @param  {Object}  action  The action to take on the state
+ * @return  {Object}  The resulting state
+ * @listens  module:client/actions/users.setAllUsers
+ * @listens  module:client/actions/users.setCurrentUser
+ * @listens  module:client/actions/users.userUpdated
+ * @listens  module:client/actions/users.userAdded
+ * @listens  module:client/actions/users.userDeleted
+ * @listens  module:client/actions/users.userUploading
  */
 
 export const users = (state = initialState, action) => {

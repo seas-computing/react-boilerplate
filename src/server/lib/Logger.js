@@ -17,8 +17,8 @@ let errorLogger = fs.createWriteStream(SERVER.ERROR_LOG, streamOpts);
 
 /**
  * Enum for log levels.
- * @enum {number}
- * @memberof module:Logger
+ * @enum  {number}
+ * @memberof  module:Logger
  */
 const LogLevel = {
   SUPPRESS: 0,
@@ -30,8 +30,8 @@ const LogLevel = {
 
 /**
  * Enum for log colors.
- * @enum {string}
- * @memberof module:Logger
+ * @enum  {string}
+ * @memberof  module:Logger
  */
 const LogColor = {
   SUPPRESS: "white",
@@ -44,8 +44,8 @@ const LogColor = {
 /**
  * Writes logs to streams
  * @memberof module.Logger
- * @prop {Stream} ACCESS - Stream for standard access logging
- * @prop {Stream} ERROR - Stream for error logging
+ * @prop  {Stream}  ACCESS  Stream for standard access logging
+ * @prop  {Stream}  ERROR  Stream for error logging
  */
 
 let Logger = {
