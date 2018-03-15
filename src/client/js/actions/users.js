@@ -72,6 +72,16 @@ export const setCurrentUser = user => ({
 });
 
 /**
+ * Generates an action to flag the user as uploading
+ * @event  module:client/actions/users.userUploading
+ * @memberof  module:client/actions/users
+ * @return  {Action}  Action to set the ajax flag
+ */
+export const userUploading = user => ({
+  type: types.USER_UPLOADING
+});
+
+/**
  * Push a new user to the server and dispatch an action
  * @async
  * @function saveNewUser
@@ -81,6 +91,7 @@ export const setCurrentUser = user => ({
 
 export const saveNewUser = user => async dispatch => {
   try {
+    dispatch(userUploading());
     let result = await api.addNewUser(user);
     dispatch(userAdded(result.data));
   } catch (err) {
@@ -98,6 +109,7 @@ export const saveNewUser = user => async dispatch => {
 
 export const updateUser = user => async dispatch => {
   try {
+    dispatch(userUploading());
     let result = await api.updateUser(user.id, user);
     dispatch(userUpdated(result.data));
   } catch (err) {
@@ -148,6 +160,7 @@ export const fetchCurrentUser = () => async dispatch => {
 
 export const deleteUser = userId => async dispatch => {
   try {
+    dispatch(userUploading());
     let result = await api.deleteUser(userId);
     dispatch(userDeleted(result.data));
   } catch (err) {
