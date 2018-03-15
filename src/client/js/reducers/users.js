@@ -37,15 +37,6 @@ export const initialState = {
 
 export const users = (state = initialState, action) => {
   switch (action.type) {
-    case ACTIONS.SET_PERMISSION_LEVEL: {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          permission: action.permission
-        }
-      };
-    }
     case ACTIONS.SET_CURRENT_USER:
       return {
         ...state,

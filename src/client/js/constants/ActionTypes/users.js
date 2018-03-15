@@ -54,17 +54,6 @@ export const USER_DELETED = "USER_DELETED";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 /**
- * Sets the permission level for the current user
- * @const
- * @inner
- * @name SET_PERMISSION_LEVEL
- * @type {ActionType}
- * @memberof module:client/actions/users
- */
-
-export const SET_PERMISSION_LEVEL = "SET_PERMISSION_LEVEL";
-
-/**
  * Flag that user data is being uploaded
  * @const
  * @inner
