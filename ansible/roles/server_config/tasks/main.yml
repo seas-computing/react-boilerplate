@@ -23,8 +23,7 @@
 - name: Create application user
   user:
     name: "{{application_name}}"
-    createhome: yes
-    generate_ssh_key: yes
+    state: present
 
 - name: Allow nginx in selinux
   seboolean:
@@ -32,10 +31,20 @@
     state: yes
     persistent: yes
 
+- name: Create applications parent directory
+  file:
+    path: "{{application_parent}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+  register: parent_dir
+
+
 - name: Create application directory
   file:
     path: "{{ application_root }}"
     owner: "{{ application_name }}"
     group: "{{ application_name }}"
-    mode: 0755
     state: directory
+  when: parent_dir.changed

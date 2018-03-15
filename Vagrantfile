@@ -11,6 +11,7 @@ Vagrant.configure("2") do |config|
       vagrant.vm.provision "ansible" do |ansible|
         ansible.playbook = "./ansible/vagrant_deploy.yml"
         ansible.inventory_path = "./ansible/hosts"
+        ansible.verbose = "true"
       end
     vagrant.vm.network "forwarded_port", guest: 80, host: 8080
     vagrant.vm.synced_folder ".", "/vagrant", disabled: true

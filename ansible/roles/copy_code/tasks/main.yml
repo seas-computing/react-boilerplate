@@ -5,6 +5,7 @@
     src: "../../../../"
     dest: "{{ application_root }}"
     delete: yes
+    rsync_path: "sudo -u {{application_name}} rsync"
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=.nyc_output"
@@ -14,11 +15,11 @@
       - "--exclude=coverage"
       - "--exclude=docs"
       - "--exclude=node_modules"
+      - "--exclude=package-lock.json"
+      - "--exclude=src/server/config.js"
+  register: code_updated
 
-- name: chown application directory
-  file:
-    path: "{{ application_root }}"
-    state: directory
-    recurse: yes
-    owner: "{{ application_name }}"
-    group: "{{ application_name }}"
+
+- set_fact:
+    app_restart_needed: true
+  when: code_updated.changed

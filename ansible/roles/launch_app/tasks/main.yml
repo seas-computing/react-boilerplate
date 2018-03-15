@@ -13,6 +13,18 @@
     name: "{{ application_name }}"
     state: started
     enabled: true
+  register: app_started
+
+- set_fact:
+    app_restart_needed: false
+  when: app_started.changed
+
+- name: restart app if needed
+  service:
+    name: "{{ application_name }}"
+    state: restarted
+    enabled: true
+  when: app_restart_needed
 
 # proxy the output to port 80 (guest), which vagrant is mapping to port 8080 on
 # the host.

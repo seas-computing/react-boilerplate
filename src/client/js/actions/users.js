@@ -40,7 +40,7 @@ export const userAdded = user => ({
  * @memberof  module:client/actions/users
  * @param  {UserData}  user  user to be replaced
  * @return  {Action}  Action to replace the updated user
- */ Action;
+ */
 
 export const userUpdated = user => ({
   type: types.USER_UPDATED,

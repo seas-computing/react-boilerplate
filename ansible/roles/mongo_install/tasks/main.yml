@@ -1,0 +1,64 @@
+---
+# We're running mongodb inside the vm to allow for a more portable environment.
+# A production deployment would need to connect to our external mongodb server.
+# The data in this database will be lost when the vm goes down, so as a project
+# matures it may make sense to create a test database and import via /bin/mongo
+# when it comes online.
+
+# Create the mongodb repo for the correct version
+- name: Add Mongo Repo
+  yum_repository:
+    name: mongodb-org-{{mongo_version}}
+    description: MongoDB Repository
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{mongo_version}}/$basearch/
+    gpgcheck: yes
+    gpgkey: https://www.mongodb.org/static/pgp/server-{{mongo_version}}.asc
+
+# Install packages needed to get up and running
+- name: install packages
+  yum:
+    name:
+      - mongodb-org-server
+      - mongodb-org-shell
+    state: present
+    update_cache: True
+
+# pymongo must be installed from pip to get correct version
+- name: Install pymongo
+  pip:
+    name: pymongo
+    state: present
+
+- name: Allow mongo in selinux
+  seport:
+    ports: 27017
+    proto: tcp
+    setype: mongod_port_t
+    state: present
+
+- name: Start mongod
+  service:
+    name: mongod
+    state: started
+    enabled: true
+
+# Mongodb allows a first user to be created without authentication (the
+# "localhost exception"). This check ensures that the playbook can be re-run
+# without hitting authentication errors.
+#
+# See: https://github.com/ansible/ansible/issues/33832
+
+- name: Check if admin already exists
+  shell: /bin/mongo --eval 'db.getUsers()' admin
+  failed_when: false
+  changed_when: false
+  register: mongo_users
+
+- name: create admin user
+  mongodb_user:
+    database: admin
+    name: "{{ application_name }}"
+    password: None
+    state: present
+    roles: dbAdmin
+  when: application_name not in mongo_users.stdout

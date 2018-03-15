@@ -3,6 +3,7 @@
   shell: /bin/bash -c "source ~/.bashrc && npm install"
   args:
     chdir: "{{ application_root }}"
+  when: app_restart_needed
 
 # add the proper configurations
 - name: Copy Config File
@@ -11,8 +12,10 @@
     dest: "{{ application_root }}/src/server/config.js"
     mode: 0664
     force: yes
+  when: app_restart_needed
 
 - name: npm build
   shell: /bin/bash -c "source ~/.bashrc && npm run build"
   args:
     chdir: "{{ application_root }}"
+  when: app_restart_needed

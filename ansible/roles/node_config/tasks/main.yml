@@ -3,6 +3,7 @@
 - name: Check if nvm is installed
   shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
   ignore_errors: True
+  changed_when: false
   register: nvm_status
 
 # if not there, download the file
@@ -17,11 +18,13 @@
   when: nvm_status.rc != 0
 
 - name: verify nvm is installed
+  changed_when: false
   shell: /bin/bash -c "source ~/.bashrc && command -v nvm"
 
 # Check that the specified version of node is installed and defaulted
 - name: Check default node version
   shell: /bin/bash -c "source ~/.bashrc && node -v"
+  changed_when: false
   ignore_errors: true
   register: current_node
 
