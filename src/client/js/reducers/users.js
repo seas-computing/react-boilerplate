@@ -92,6 +92,12 @@ export const users = (state = initialState, action) => {
         ajax: true
       };
     }
+    case ACTIONS.USER_UPLOADING_FAILED: {
+      return {
+        ...state,
+        ajax: false
+      };
+    }
     default:
       return state;
   }

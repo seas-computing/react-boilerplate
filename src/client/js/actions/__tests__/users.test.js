@@ -65,6 +65,22 @@ describe("User Actions", function() {
         deepEqual(action.user, dummy.User);
       });
     });
+    describe("userUploading", function() {
+      beforeEach(function() {
+        action = actions.userUploading();
+      });
+      it("should be of type USER_UPLOADING", function() {
+        equal(action.type, types.USER_UPLOADING);
+      });
+    });
+    describe("userUploadingFailed", function() {
+      beforeEach(function() {
+        action = actions.userUploadingFailed();
+      });
+      it("should be of type USER_UPLOADING_FAILED", function() {
+        equal(action.type, types.USER_UPLOADING_FAILED);
+      });
+    });
   });
 
   describe("Asynchronous actions", function() {
@@ -95,12 +111,18 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
-        it("Should dispatch the newUser action", function() {
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
+        it("Should dispatch the newUser action second", function() {
           let expected = {
             type: types.USER_ADDED,
             user: dummy.regularUser
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[1], expected);
         });
       });
       describe("When api call fails", function() {
@@ -112,12 +134,24 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
-        it("Should dispatch an errorMessage", function() {
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
+        it("Should dispatch the userUploadingFailed action second", function() {
+          let expected = {
+            type: types.USER_UPLOADING_FAILED
+          };
+          deepEqual(store.getActions()[1], expected);
+        });
+        it("Should dispatch an errorMessage third", function() {
           let expected = {
             type: types.ERROR_MESSAGE,
             message: new Error("Error")
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[2], expected);
         });
       });
     });
@@ -140,12 +174,18 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
-        it("Should dispatch the userUpdated action", function() {
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
+        it("Should dispatch the userUpdated action second", function() {
           let expected = {
             type: types.USER_UPDATED,
             user: dummy.regularUser
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[1], expected);
         });
       });
       describe("When api call fails", function() {
@@ -157,12 +197,24 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
-        it("Should dispatch an errorMessage", function() {
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
+        it("Should dispatch the userUploadingFailed action second", function() {
+          let expected = {
+            type: types.USER_UPLOADING_FAILED
+          };
+          deepEqual(store.getActions()[1], expected);
+        });
+        it("Should dispatch an errorMessage third", function() {
           let expected = {
             type: types.ERROR_MESSAGE,
             message: new Error("Error")
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[2], expected);
         });
       });
     });
@@ -278,12 +330,18 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
         it("Should dispatch the newUser action", function() {
           let expected = {
             type: types.USER_DELETED,
             user: dummy.regularUser
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[1], expected);
         });
       });
       describe("When api call fails", function() {
@@ -295,12 +353,24 @@ describe("User Actions", function() {
           equal(mockCall.called, true);
           equal(mockCall.callCount, 1);
         });
-        it("Should dispatch an errorMessage", function() {
+        it("Should dispatch the userUploading action first", function() {
+          let expected = {
+            type: types.USER_UPLOADING
+          };
+          deepEqual(store.getActions()[0], expected);
+        });
+        it("Should dispatch the userUploadingFailed action second", function() {
+          let expected = {
+            type: types.USER_UPLOADING_FAILED
+          };
+          deepEqual(store.getActions()[1], expected);
+        });
+        it("Should dispatch an errorMessage third", function() {
           let expected = {
             type: types.ERROR_MESSAGE,
             message: new Error("Error")
           };
-          deepEqual(store.getActions(), [expected]);
+          deepEqual(store.getActions()[2], expected);
         });
       });
     });

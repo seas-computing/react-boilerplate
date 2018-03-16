@@ -21,20 +21,6 @@ describe("Users Reducer", function() {
         testState = { ...initialState };
         testStateCopy = { ...testState };
       });
-      describe("SET_PERMISSION_LEVEL", function() {
-        beforeEach(function() {
-          state = users(testState, {
-            type: ACTIONS.SET_PERMISSION_LEVEL,
-            permission: dummy.adminUser.permission
-          });
-        });
-        it("Should not mutate the state", function() {
-          deepEqual(testState, testStateCopy);
-        });
-        it("Should set the permission level", function() {
-          equal(state.currentUser.permission, dummy.adminUser.permission);
-        });
-      });
       describe("SET_CURRENT_USER", function() {
         beforeEach(function() {
           state = users(testState, {
@@ -75,6 +61,32 @@ describe("Users Reducer", function() {
         });
         it("Should add the user to the end of the list", function() {
           equal(state.allUsers[state.allUsers.length - 1], dummy.webUser);
+        });
+      });
+      describe("USER_UPLOADING", function() {
+        beforeEach(function() {
+          state = users(testState, {
+            type: ACTIONS.USER_UPLOADING
+          });
+        });
+        it("Should not mutate the state", function() {
+          deepEqual(testState, testStateCopy);
+        });
+        it("Should set ajax to true", function() {
+          equal(state.ajax, true);
+        });
+      });
+      describe("USER_UPLOADING_FAILED", function() {
+        beforeEach(function() {
+          state = users(testState, {
+            type: ACTIONS.USER_UPLOADING_FAILED
+          });
+        });
+        it("Should not mutate the state", function() {
+          deepEqual(testState, testStateCopy);
+        });
+        it("Should set ajax to false", function() {
+          equal(state.ajax, false);
         });
       });
     });

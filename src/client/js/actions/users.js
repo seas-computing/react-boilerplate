@@ -76,10 +76,20 @@ export const setCurrentUser = user => ({
  * Generates an action to flag the user as uploading
  * @event  module:client/actions/users.userUploading
  * @memberof  module:client/actions/users
- * @return  {Action}  Action to set the ajax flag
+ * @return  {Action}  Action to set the ajax flag to true
  */
-export const userUploading = user => ({
+export const userUploading = () => ({
   type: types.USER_UPLOADING
+});
+
+/**
+ * Generates an action to flag an upload as failing
+ * @event  module:client/actions/users.userUploadFailed
+ * @memberof  module:client/actions/users
+ * @return  {Action}  Action to set the ajax flag to false
+ */
+export const userUploadingFailed = () => ({
+  type: types.USER_UPLOADING_FAILED
 });
 
 /**
@@ -99,6 +109,7 @@ export const saveNewUser = user => async dispatch => {
     let result = await api.addNewUser(user);
     dispatch(userAdded(result.data));
   } catch (err) {
+    dispatch(userUploadingFailed());
     dispatch(errorMessage(err));
   }
 };
@@ -120,6 +131,7 @@ export const updateUser = user => async dispatch => {
     let result = await api.updateUser(user.id, user);
     dispatch(userUpdated(result.data));
   } catch (err) {
+    dispatch(userUploadingFailed());
     dispatch(errorMessage(err));
   }
 };
@@ -178,6 +190,7 @@ export const deleteUser = userId => async dispatch => {
     let result = await api.deleteUser(userId);
     dispatch(userDeleted(result.data));
   } catch (err) {
+    dispatch(userUploadingFailed());
     dispatch(errorMessage(err));
   }
 };

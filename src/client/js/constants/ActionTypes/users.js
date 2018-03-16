@@ -63,3 +63,14 @@ export const SET_CURRENT_USER = "SET_CURRENT_USER";
  */
 
 export const USER_UPLOADING = "USER_UPLOADING";
+
+/**
+ * Flag that user data upload failed
+ * @const
+ * @inner
+ * @name  USER_UPLOADING_FAILED
+ * @type  {ActionType}
+ * @memberof  module:client/actions/users
+ */
+
+export const USER_UPLOADING_FAILED = "USER_UPLOADING_FAILED";
