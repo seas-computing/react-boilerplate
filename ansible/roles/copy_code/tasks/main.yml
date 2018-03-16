@@ -6,6 +6,14 @@
     dest: "{{ application_root }}"
     delete: yes
     rsync_path: "sudo -u {{application_name}} rsync"
+    archive: no
+    owner: no
+    group: no
+    perms: yes
+    links: yes
+    times: no
+    recursive: yes
+    checksum: yes
     rsync_opts:
       - "--exclude=.git"
       - "--exclude=.nyc_output"
