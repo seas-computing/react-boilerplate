@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     end
     vagrant.vm.box = "centos/7"
       vagrant.vm.provision "ansible" do |ansible|
-        ansible.playbook = "./ansible/vagrant_deploy.yml"
+        ansible.playbook = "./ansible/deploy.yml"
         ansible.inventory_path = "./ansible/hosts"
         ansible.verbose = "true"
       end
