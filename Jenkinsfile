@@ -21,6 +21,7 @@ pipeline {
         always {
             junit "test_results.xml"
             step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/cobertura-coverage.xml'])
+            sh 'rm -rf ./node_modules'
         }
     }
 }
