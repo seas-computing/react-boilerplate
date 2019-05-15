@@ -30,5 +30,4 @@ src/server/app.pid
 *~
 .DS_STORE
 
-.vagrant
-ansible/*.retry
+.env
