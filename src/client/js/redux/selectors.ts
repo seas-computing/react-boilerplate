@@ -3,7 +3,7 @@
  * @module  client/selectors/users
  */
 
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 /**
  * Returns the complete user list from the state
  * @method  getUserList
@@ -12,7 +12,7 @@ import { createSelector } from "reselect";
  * @param  {object}  state  Redux state
  * @return  {UserData[]}  A list of all users
  */
-const getUserList = state => state.admin.allUsers;
+const getUserList = (state) => state.admin.allUsers;
 
 /**
  * Returns the currently authenticated user's id
@@ -23,7 +23,7 @@ const getUserList = state => state.admin.allUsers;
  * @return  {string}  the id for the current user
  */
 
-const getCurrentUserId = state => state.admin.currentUser.id;
+const getCurrentUserId = (state) => state.admin.currentUser.id;
 
 /**
  * Selected that returns the current user data
@@ -36,8 +36,8 @@ const getCurrentUserId = state => state.admin.currentUser.id;
 export const getThisUsersData = createSelector(
   [getUserList, getCurrentUserId],
   (all, one) => {
-    let list = [...all];
-    return list.find(e => e.id === one);
+    const list = [...all];
+    return list.find((e) => e.id === one);
   }
 );
 /**
@@ -50,7 +50,7 @@ export const getThisUsersData = createSelector(
 export const getAllOtherUsers = createSelector(
   [getUserList, getCurrentUserId],
   (all, one) => {
-    let list = [...all];
-    return list.filter(e => e.id !== one);
+    const list = [...all];
+    return list.filter((e) => e.id !== one);
   }
 );

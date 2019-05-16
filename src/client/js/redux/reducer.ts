@@ -1,10 +1,18 @@
+import { combineReducers } from 'redux';
+import { users } from './users';
+
+const rootReducer = combineReducers({
+  users,
+});
+
+export default rootReducer;
 /**
  * Redux User Reducer
  * @module  client/reducers/users
  * @see  module:client/actions/users
  */
 
-import * as ACTIONS from "../constants/ActionTypes";
+import * as ACTIONS from '../constants/ActionTypes';
 
 /**
  * Initial User State
@@ -20,10 +28,10 @@ import * as ACTIONS from "../constants/ActionTypes";
 export const initialState = {
   currentUser: {
     id: null,
-    permission: null
+    permission: null,
   },
   allUsers: [],
-  ajax: false
+  ajax: false,
 };
 
 /**
@@ -46,56 +54,56 @@ export const users = (state = initialState, action) => {
     case ACTIONS.SET_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.user
+        currentUser: action.user,
       };
     case ACTIONS.SET_ALL_USERS:
       return {
         ...state,
-        allUsers: action.users
+        allUsers: action.users,
       };
     case ACTIONS.USER_UPDATED: {
-      let newUsers = [...state.allUsers];
-      let index = newUsers.findIndex(e => e.id === action.user.id);
-      if (~index) {
+      const newUsers = [...state.allUsers];
+      const index = newUsers.findIndex((e) => e.id === action.user.id);
+      if (index !== -1) {
         newUsers.splice(index, 1, action.user);
       }
       return {
         ...state,
         allUsers: newUsers,
-        ajax: false
+        ajax: false,
       };
     }
     case ACTIONS.USER_ADDED: {
-      let newUsers = [...state.allUsers];
+      const newUsers = [...state.allUsers];
       newUsers.push(action.user);
       return {
         ...state,
         allUsers: newUsers,
-        ajax: false
+        ajax: false,
       };
     }
     case ACTIONS.USER_DELETED: {
-      let newUsers = [...state.allUsers];
-      let index = newUsers.findIndex(e => e.id === action.user.id);
-      if (~index) {
+      const newUsers = [...state.allUsers];
+      const index = newUsers.findIndex((e) => e.id === action.user.id);
+      if (index !== -1) {
         newUsers.splice(index, 1);
       }
       return {
         ...state,
         allUsers: newUsers,
-        ajax: false
+        ajax: false,
       };
     }
     case ACTIONS.USER_UPLOADING: {
       return {
         ...state,
-        ajax: true
+        ajax: true,
       };
     }
     case ACTIONS.USER_UPLOADING_FAILED: {
       return {
         ...state,
-        ajax: false
+        ajax: false,
       };
     }
     default:
