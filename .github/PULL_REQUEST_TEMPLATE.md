@@ -22,11 +22,14 @@
 
 ## Related Issues:
 <!--
-  Mention any issues that this PR is meant to address or is related to below.
-  If possible, please provide more information regarding the relationship to
-  the issues in question (i.e does the PR fix the issue, is it designed to fix
-  another bug that is similar to the issue etc.)
+  Add the issue number in below that this PR is intended to address.
+
+  Also mention any issues that this PR is related to, and if possible,
+  provide more information regarding the relationship to the issues in
+  question (i.e does the PR fix the issue, is it designed to fix another bug
+  that is similar to the issue etc.)
 -->
+Fixes #___
 
 <!--
   Attribution:
