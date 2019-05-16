@@ -3,7 +3,7 @@
  * @module  client/api/users
  */
 
-import request from "axios";
+import request from 'axios';
 
 /**
  * Get all of the users
@@ -13,7 +13,7 @@ import request from "axios";
  * @return  {Promise<UserData[]>}  Resolves to a list of all users
  */
 
-export const getAllUsers = async () => await request.get(`/api/users/all`);
+export const getAllUsers = async () => request.get('/api/users/all');
 
 /**
  * Add a new user
@@ -24,8 +24,7 @@ export const getAllUsers = async () => await request.get(`/api/users/all`);
  * @return  {Promise<UserData>}  Resolves to the new user data
  */
 
-export const addNewUser = async data =>
-  await request.post(`/api/users/new`, data);
+export const addNewUser = async (data) => request.post('/api/users/new', data);
 
 /**
  * Update a user
@@ -35,8 +34,7 @@ export const addNewUser = async data =>
  * @return  {Promise<UserData>}  Resolves to the updated user
  */
 
-export const updateUser = async (id, data) =>
-  await request.put(`/api/users/${id}`, data);
+export const updateUser = async (id, data) => request.put(`/api/users/${id}`, data);
 
 /**
  * Delete a user
@@ -46,7 +44,7 @@ export const updateUser = async (id, data) =>
  * @return  {Promise<UserData>}  Resolves to the data of the user just deleted
  */
 
-export const deleteUser = async id => await request.delete(`/api/users/${id}`);
+export const deleteUser = async (id) => request.delete(`/api/users/${id}`);
 
 /**
  * Get the currently authenticated user
@@ -56,5 +54,4 @@ export const deleteUser = async id => await request.delete(`/api/users/${id}`);
  * @return  {Promise<UserData>}  Resolves to the data of the currently authenticated user
  */
 
-export const getCurrentUser = async () =>
-  await request.get(`/api/users/current`);
+export const getCurrentUser = async () => request.get('/api/users/current');
