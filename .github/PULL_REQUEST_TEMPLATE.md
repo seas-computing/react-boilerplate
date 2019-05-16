@@ -12,7 +12,7 @@
 <!--
   Go over all the following points, and put an `x` in all the boxes that apply.
 -->
-- [ ] I run eslint on the code
+- [ ] I have run `eslint` on the code
 - [ ] I have added JSDoc for all of my code (where applicable)
 - [ ] I have added tests to cover my changes.
 
