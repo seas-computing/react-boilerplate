@@ -36,3 +36,4 @@ src/server/app.pid
 .DS_STORE
 
 .env
+dist
