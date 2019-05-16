@@ -37,7 +37,13 @@ Steps to reproduce the behavior:
 - **OS:** <!-- [e.g. iOS/Android etc.] -->
   - **Version:** <!-- [e.g 9] -->
 - **Browser:** <!--[e.g. chrome, safari] -->
-  - Version <!-- [e.g. 22] -->
+  - **Version** <!-- [e.g. 22] -->
 
 ### Additional Information
 <!-- Add any other context about the problem here. -->
+
+
+---
+
+- [ ] Test
+- [ ] Docs

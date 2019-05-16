@@ -13,3 +13,8 @@ Add the rest of your user story below
 -->
 
 So that ___
+
+---
+
+- [ ] Test
+- [ ] Docs
