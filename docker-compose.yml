@@ -17,7 +17,6 @@ services:
       context: .
       target: base 
     environment: 
-      CLIENT_PORT:
       DB_HOSTNAME: 
       DB_PORT:
       DB_DATABASE: 
