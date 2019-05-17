@@ -1,12 +1,15 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "experimentalDecorators": true,
-    "sourceType": "module"
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
   },
   "extends": [
     "plugin:react/recommended",
-    "airbnb"
+    "airbnb",
+    "plugin:@typescript-eslint/recommended"
   ],
   "env": {
     "browser": true,
@@ -15,13 +18,16 @@
   },
   "plugins": [
     "react",
-    "mocha"
+    "mocha",
+    "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/indent": ["error", 2],
     "arrow-parens": [
       "warn",
       "always"
     ],
+    "class-methods-use-this": "off",
     "comma-dangle": [
       "error",
       {
@@ -44,6 +50,7 @@
         "devDependencies": true
       }
     ], 
+    "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",

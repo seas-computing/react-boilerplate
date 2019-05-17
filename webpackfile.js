@@ -9,13 +9,16 @@ const client = {
     filename: 'app.js',
     publicPath: '/static/',
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   target: 'web',
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.tsx?$/,
       exclude: /node_modules/,
       use: {
-        loader: 'babel-loader',
+        loader: 'ts-loader',
       },
     },
     ],
@@ -31,19 +34,22 @@ const client = {
 const server = {
   name: 'server',
   entry: [
-    './src/server/index.js',
+    './src/server/index.ts',
   ],
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
   target: 'node',
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.ts$/,
       exclude: /node_modules/,
       use: {
-        loader: 'babel-loader',
+        loader: 'ts-loader',
       },
     },
     ],
