@@ -10,6 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME:
       MONGO_INITDB_ROOT_PASSWORD:
     volumes:
+      - "./mongoInit.js:/docker-entrypoint-initdb.d/mongoInit.js"
       - "mongo_data:/data/db/"
 
   node:
@@ -17,12 +18,14 @@ services:
       context: .
       target: base 
     environment: 
+      CAS_URL:
       DB_HOSTNAME: 
       DB_PORT:
       DB_DATABASE: 
       DB_USERNAME:
       DB_PASSWORD:
       NODE_ENV:
+      EXTERNAL_URL:
       SERVER_PORT: 
     user: "1000:1000"
     ports:
