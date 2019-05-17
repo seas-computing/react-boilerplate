@@ -1,11 +1,11 @@
-const path = require('path');
+const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const client = {
   name: 'client',
   entry: ['./src/client/index.js'],
   output: {
-    path: path.resolve(__dirname, 'build/static'),
+    path: resolve(__dirname, 'build/static'),
     filename: 'app.js',
     publicPath: '/static/',
   },
@@ -34,7 +34,7 @@ const server = {
     './src/server/index.js',
   ],
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
   target: 'node',
