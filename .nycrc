@@ -1,15 +1,12 @@
 {
-  "description": "Configuration for test coverage",
-  "nyc": {
-    "check-coverage": true,
-    "lines": 75,
-    "statements": 75,
-    "functions": 75
-  },
-  "include": ["src/**/*.js"],
-  "cache": false,
+  "check-coverage": true,
+  "lines": 80,
+  "statements": 80,
+  "functions": 80,
+  "extends": "@istanbul/nyc-config-typescript",
+  "all": true,
   "clean": true,
   "instrument": true,
   "sourceMap": true,
-  "reporter": "cobertura"
+  "reporter": "text"
 }
