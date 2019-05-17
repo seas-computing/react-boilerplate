@@ -11,6 +11,11 @@ test_results.xml
 
 # production
 /build
+build
+
+#Documentation
+/docs
+docs
 
 # misc
 .DS_Store
