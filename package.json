@@ -26,6 +26,7 @@
     "axios": "^0.18.0",
     "babel-loader": "^8.0.6",
     "cas-authentication": "^0.0.8",
+    "connect-mongodb-session": "^2.1.1",
     "css-loader": "^2.1.1",
     "docdash": "^1.1.0",
     "enzyme": "^3.9.0",
