@@ -41,7 +41,7 @@ const server = {
     filename: 'server.js',
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', 'tsx', '.js'],
   },
   target: 'node',
   module: {
