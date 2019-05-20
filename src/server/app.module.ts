@@ -2,7 +2,13 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './controllers';
 import { AppService } from './services';
-import { devServer, hotServer } from './middleware';
+import {
+  CASMiddleware,
+  cas,
+  devServer,
+  hotServer,
+  sessionInit,
+} from './middleware';
 
 const {
   NODE_ENV,
@@ -12,6 +18,12 @@ const {
   DB_USERNAME,
   DB_PASSWORD,
 } = process.env;
+
+/**
+ * Base application module that injects Mongoose and configures
+ * all necessary middleware.
+ */
+
 
 @Module({
   imports: [
@@ -29,9 +41,11 @@ const {
 })
 class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(sessionInit).forRoutes('*');
     if (NODE_ENV === 'development') {
       consumer.apply(devServer, hotServer).forRoutes('/');
     }
+    consumer.apply(cas.bounce, CASMiddleware).forRoutes('*');
   }
 }
 
