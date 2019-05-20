@@ -6,6 +6,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const publicPath = '/';
 
+/**
+ * Configures react development for the client.
+ */
+
 const config = {
   name: 'client',
   mode: 'development',
@@ -52,6 +56,12 @@ const config = {
 };
 
 const compiler = webpack(config);
+
+/**
+ * Implements the webpack development server middleware to server
+ * Compiled client code from memory. The Hot Server also allows for
+ * live module replacement.
+ */
 
 export const devServer = webpackDevServer(compiler, {
   publicPath,
