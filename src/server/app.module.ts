@@ -1,51 +1,57 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule, ConfigModule } from './modules';
 import { AppController } from './controllers';
-import { AppService } from './services';
 import {
-  CASMiddleware,
-  cas,
+  AppService,
+  SessionService,
+  ConfigService,
+} from './services';
+import {
   devServer,
   hotServer,
-  sessionInit,
+  SessionMiddleware,
 } from './middleware';
-
-const {
-  NODE_ENV,
-  DB_HOSTNAME,
-  DB_PORT,
-  DB_DATABASE,
-  DB_USERNAME,
-  DB_PASSWORD,
-} = process.env;
+import { MongooseConnector } from './interfaces';
 
 /**
  * Base application module that injects Mongoose and configures
  * all necessary middleware.
  */
 
-
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      `mongodb://${DB_HOSTNAME}:${DB_PORT}/${DB_DATABASE}`,
-      {
-        useNewUrlParser: true,
-        user: DB_USERNAME,
-        pass: DB_PASSWORD,
-      }
-    ),
+    ConfigModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService): Promise<MongooseConnector> => (
+        {
+          ...config.mongooseConnection,
+        }
+      ),
+      inject: [ConfigService],
+    }),
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    ConfigService,
+    SessionService,
+  ],
 })
 class AppModule implements NestModule {
+  private readonly config: ConfigService;
+
+  public constructor(config: ConfigService) {
+    this.config = config;
+  }
+
   public configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(sessionInit).forRoutes('*');
-    if (NODE_ENV === 'development') {
+    consumer.apply(SessionMiddleware).forRoutes('*');
+    if (this.config.isDevelopment) {
       consumer.apply(devServer, hotServer).forRoutes('/');
     }
-    consumer.apply(cas.bounce, CASMiddleware).forRoutes('*');
   }
 }
 
