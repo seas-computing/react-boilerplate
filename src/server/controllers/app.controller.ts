@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../decorators';
 import { AppService } from '../services';
 
 /**
@@ -6,6 +7,7 @@ import { AppService } from '../services';
  */
 
 @Controller()
+@UseGuards(AuthGuard)
 export class AppController {
   private readonly appService: AppService;
 
