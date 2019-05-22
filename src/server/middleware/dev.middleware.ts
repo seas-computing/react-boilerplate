@@ -48,7 +48,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Docker App',
+      title: process.env.APP_NAME,
       template: resolve(__dirname, '.src/client/index.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),

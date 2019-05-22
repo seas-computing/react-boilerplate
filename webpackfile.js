@@ -25,7 +25,7 @@ const client = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Docker App',
+      title: process.env.APP_NAME,
       template: 'index.html',
     }),
   ],
