@@ -1,4 +1,4 @@
-import { MongooseConnector } from '../interfaces';
+import { MongooseModuleOptions } from '@nestjs/mongoose';
 
 /**
  * Parses process.env to create a clean configuration interface
@@ -20,10 +20,10 @@ class ConfigService {
   }
 
   /**
-   * Return a pre-formatted uri and options object fro connecting to Mongoose
+   * Return connection parameters for the Mongoose Module
    */
 
-  public get mongooseConnection(): MongooseConnector {
+  public get mongooseOptions(): MongooseModuleOptions {
     const {
       DB_HOSTNAME,
       DB_PORT,
@@ -33,11 +33,9 @@ class ConfigService {
     } = this.env;
     return {
       uri: `mongodb://${DB_HOSTNAME}:${DB_PORT}/${DB_DATABASE}`,
-      options: {
-        useNewUrlParser: true,
-        user: DB_USERNAME,
-        pass: DB_PASSWORD,
-      },
+      useNewUrlParser: true,
+      user: DB_USERNAME,
+      pass: DB_PASSWORD,
     };
   }
 

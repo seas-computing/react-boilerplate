@@ -1,5 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
 import { AuthModule, ConfigModule } from './modules';
 import { AppController } from './controllers';
 import {
@@ -12,7 +12,6 @@ import {
   hotServer,
   SessionMiddleware,
 } from './middleware';
-import { MongooseConnector } from './interfaces';
 
 /**
  * Base application module that injects Mongoose and configures
@@ -24,11 +23,9 @@ import { MongooseConnector } from './interfaces';
     ConfigModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (config: ConfigService): Promise<MongooseConnector> => (
-        {
-          ...config.mongooseConnection,
-        }
-      ),
+      useFactory: async (
+        config: ConfigService
+      ): Promise<MongooseModuleOptions> => (config.mongooseOptions),
       inject: [ConfigService],
     }),
     AuthModule,
