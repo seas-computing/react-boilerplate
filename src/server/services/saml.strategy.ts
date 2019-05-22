@@ -1,7 +1,8 @@
 import { Strategy } from 'passport-saml';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserData, HarvardKeyProfile } from '../interfaces';
+import { HarvardKeyProfile } from '../interfaces';
+import { User } from '../models';
 import { ConfigService } from './config.service';
 
 /**
@@ -21,26 +22,19 @@ class SAMLStrategy extends PassportStrategy(Strategy) {
     this.devMode = !config.isProduction;
   }
 
-  public async validate(profile: HarvardKeyProfile): Promise<UserData> {
+  public async validate(profile: HarvardKeyProfile): Promise<User> {
     if (this.devMode) {
-      return {
+      return new User({
         id: 'abc123',
         firstName: 'Test',
         lastName: 'User',
         email: 'noreply@seas.harvard.edu',
-        displayName: 'testUser',
-      };
+      });
     }
     if (!profile) {
       throw new UnauthorizedException('You are not authorized to use this application. Please contact SEAS computing');
     }
-    return {
-      id: profile.eppn,
-      firstName: profile.givenName,
-      lastName: profile.sn,
-      email: profile.mail,
-      displayName: profile.displayName,
-    };
+    return User.fromProfile(profile);
   }
 }
 
