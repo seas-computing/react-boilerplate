@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackRootElementPlugin = require('html-webpack-root-element-plugin');
 
 const client = {
   name: 'client',
@@ -9,41 +10,47 @@ const client = {
     filename: 'app.js',
     publicPath: '/static/',
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   target: 'web',
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.tsx?$/,
       exclude: /node_modules/,
       use: {
-        loader: 'babel-loader',
+        loader: 'ts-loader',
       },
     },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Docker App',
-      template: 'index.html',
+      title: process.env.APP_NAME,
     }),
+    new HtmlWebpackRootElementPlugin(),
   ],
 };
 
 const server = {
   name: 'server',
   entry: [
-    './src/server/index.js',
+    './src/server/index.ts',
   ],
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
+  resolve: {
+    extensions: ['.ts', 'tsx', '.js'],
+  },
   target: 'node',
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.ts$/,
       exclude: /node_modules/,
       use: {
-        loader: 'babel-loader',
+        loader: 'ts-loader',
       },
     },
     ],
