@@ -56,8 +56,6 @@ const compiler = webpack([{
   ],
 }]);
 
-// const compiler = webpack([config]);
-
 /**
  * Implements the webpack development server middleware to server
  * Compiled client code from memory. The Hot Server also allows for
