@@ -3,6 +3,7 @@ import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-middleware';
 import webpackHotServer from 'webpack-hot-middleware';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import HtmlWebpackRootElementPlugin from 'html-webpack-root-element-plugin';
 
 const publicPath = '/';
 
@@ -10,20 +11,20 @@ const publicPath = '/';
  * Configures react development for the client.
  */
 
-const config = {
+const compiler = webpack([{
   name: 'client',
+  target: 'web',
   mode: 'development',
   entry: [
     'webpack-hot-middleware/client',
     'react-hot-loader/patch',
-    './src/client/index.js',
+    './src/client/index.tsx',
   ],
   output: {
     path: resolve(__dirname, 'build/static'),
     filename: 'app.js',
     publicPath,
   },
-  target: 'web',
   module: {
     rules: [
       {
@@ -49,13 +50,13 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
-      template: resolve(__dirname, '.src/client/index.html'),
     }),
+    new HtmlWebpackRootElementPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
-};
+}]);
 
-const compiler = webpack(config);
+// const compiler = webpack([config]);
 
 /**
  * Implements the webpack development server middleware to server
@@ -66,6 +67,4 @@ const compiler = webpack(config);
 export const devServer = webpackDevServer(compiler, {
   publicPath,
 });
-export const hotServer = webpackHotServer(compiler, {
-  publicPath,
-});
+export const hotServer = webpackHotServer(compiler);

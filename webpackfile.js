@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackRootElementPlugin = require('html-webpack-root-element-plugin');
 
 const client = {
   name: 'client',
@@ -26,8 +27,8 @@ const client = {
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
-      template: 'index.html',
     }),
+    new HtmlWebpackRootElementPlugin(),
   ],
 };
 
