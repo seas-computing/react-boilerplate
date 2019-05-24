@@ -1,22 +1,26 @@
 let specGlobs = [];
 if (process.argv.includes('--client')) {
   specGlobs.push('src/client/**/__tests__/*.test.ts');
+  specGlobs.push('src/client/**/__tests__/*.test.tsx');
 }
 if (process.argv.includes('--server')) {
   specGlobs.push('src/server/**/__tests__/*.test.ts');
+  specGlobs.push('src/server/**/__tests__/*.test.tsx');
 }
 module.exports = {
   exit: true,
   ui: 'bdd',
   reporter: 'spec',
   timeout: 30000,
-  file: '.mochainit.js',
+  file: '.mochainit.ts',
   recursive: true,
   require: [
     'jsdom-global/register',
     'raf/polyfill',
-    'ts-node',
+    'ts-node/register',
   ],
-  extension: ['ts'],
-  spec: specGlobs.length > 0 ? specGlobs : 'src/**/*.test.ts',
+  extension: ['ts', 'tsx', 'js'],
+  spec: specGlobs.length > 0
+    ? specGlobs
+    : ['src/**/*.test.ts', 'src/**/*/*.test.tsx'],
 }
