@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import webpackDevServer from 'webpack-dev-middleware';
 import webpackHotServer from 'webpack-hot-middleware';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import HtmlWebpackRootElementPlugin from 'html-webpack-root-element-plugin';
+import HtmlWebpackRootPlugin from 'html-webpack-root-plugin';
 
 const publicPath = '/';
 
@@ -15,10 +15,11 @@ const compiler = webpack([{
   name: 'client',
   target: 'web',
   mode: 'development',
+  devtool: 'cheap-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
     'react-hot-loader/patch',
-    './src/client/index.tsx',
+    './src/client/index.ts',
   ],
   output: {
     path: resolve(__dirname, 'build/static'),
@@ -28,7 +29,7 @@ const compiler = webpack([{
   module: {
     rules: [
       {
-        test: /\.[jt]sx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
           {
@@ -43,6 +44,7 @@ const compiler = webpack([{
     ],
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
@@ -51,7 +53,7 @@ const compiler = webpack([{
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
     }),
-    new HtmlWebpackRootElementPlugin(),
+    new HtmlWebpackRootPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
 }]);
