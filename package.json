@@ -87,11 +87,12 @@
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
-    "test": "nyc mocha",
-    "start": "nodemon",
     "build": "webpack --mode=production",
+    "docs": "typedoc",
+    "lint": "eslint --ext=ts,js .",
+    "test": "nyc mocha",
     "test:watch": "mocha --watch",
-    "docs": "typedoc"
+    "start": "nodemon"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
