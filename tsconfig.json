@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "jsx": "react",
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -13,6 +14,6 @@
     "baseUrl": "./",
     "incremental": true
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
