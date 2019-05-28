@@ -1,4 +1,4 @@
-import { createContext, Context } from 'react';
+import { createContext, Context, Reducer } from 'react';
 
 /**
  * Possible types of message to display to the user
@@ -11,18 +11,22 @@ export enum MessageType {
 }
 
 /**
+ * Possible actions to take on the message queue
+ */
+
+export enum MessageActions {
+  push = 'push',
+  clear = 'clear',
+}
+
+/**
  * Fields for a message type.
- *
- * The `setMessage` field here allows you to pass a setter function from the
- * top level App component down to its children through the context api
  */
 
 export interface Message {
   variant: MessageType;
   message: string;
-  setMessage?: Function;
 }
-
 
 /**
  * Used for displaying message to the client
@@ -33,38 +37,60 @@ export class AppMessage implements Message {
 
   public message: string;
 
-  public setMessage: Function;
-
-  /** Whether the message should be displayed */
-  public visible: boolean;
-
   public constructor(newMessage: Message) {
     this.variant = newMessage.variant;
     this.message = newMessage.message;
-    this.visible = true;
-    if (newMessage.setMessage) {
-      this.setMessage = newMessage.setMessage;
-    }
-  }
-
-  /**
-   * Optionally waits an amount of time before clearing the message,
-   * or if called with no argument clears the time immediately
-   * */
-  public clearMessage(timer: number): void {
-    const hide = (): void => {
-      this.visible = false;
-    };
-    if (timer > 0) {
-      setTimeout(hide, timer);
-    } else {
-      hide();
-    }
   }
 }
+
+interface MessageState {
+  queue: AppMessage[];
+  currentMessage: AppMessage;
+}
+
+interface MessageAction {
+  type: MessageActions;
+  message?: AppMessage;
+}
+/**
+ * handles Queueing logic for the toplevel app component
+ */
+
+export const messageReducer: Reducer<MessageState, MessageAction> = (
+  state: MessageState,
+  action: MessageAction
+): MessageState => {
+  const { currentMessage, queue } = state;
+  switch (action.type) {
+    case (MessageActions.push): {
+      if (!currentMessage) {
+        return ({
+          ...state,
+          currentMessage: action.message,
+        });
+      }
+      const newQueue = [...queue, action.message];
+      return {
+        ...state,
+        queue: newQueue,
+      };
+    }
+    case (MessageActions.clear): {
+      const nextQueue = [...queue];
+      const nextMessage = nextQueue.shift();
+      return {
+        queue: nextQueue,
+        currentMessage: nextMessage,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 
 /**
  * Global message provider
  */
 
-export const MessageContext: Context<AppMessage> = createContext(null);
+export const MessageContext: Context<Function> = createContext(null);

@@ -1,7 +1,18 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  ReactElement,
+  SFC,
+} from 'react';
 import { hot } from 'react-hot-loader/root';
 import {
-  UserContext, MessageContext, MessageType, AppMessage,
+  AppMessage,
+  MessageActions,
+  MessageContext,
+  MessageType,
+  messageReducer,
+  UserContext,
 } from '../context';
 import { User } from '../../server/models';
 import { getCurrentUser } from '../api';
@@ -12,7 +23,7 @@ import { Message } from './layout';
  * mounts, then saves it to the UserContext to pass down to other components
  */
 
-const App = (): ReactElement => {
+const App: SFC = (): ReactElement => {
   /**
    * Hook for maintaining the currently selected user
    * */
@@ -20,13 +31,18 @@ const App = (): ReactElement => {
   const [currentUser, setUser] = useState();
 
   /**
-   * Hook for maintaining the current app-wide message
+   * Set up the local reducer for maintaining the current app-wide message
+   * queue. The dispatchMessage function will be passed down through the
+   * Message Context Provider
    * */
 
-  const [appMessage, setMessage] = useState(new AppMessage({
-    message: '',
-    variant: null,
-  }));
+  const [{ currentMessage, queue }, dispatchMessage] = useReducer(
+    messageReducer,
+    {
+      queue: [],
+      currentMessage: undefined,
+    }
+  );
 
   /**
    * Get the currently authenticated user from the server on launch.
@@ -40,29 +56,40 @@ const App = (): ReactElement => {
         return user;
       })
       .then((user): void => {
-        setMessage(new AppMessage({
-          variant: MessageType.info,
-          message: `Current User: ${user.fullName}`,
-          setMessage,
-        }));
+        dispatchMessage({
+          message: new AppMessage({
+            variant: MessageType.info,
+            message: `Current User: ${user.fullName}`,
+          }),
+          type: MessageActions.push,
+        });
       })
       .catch((): void => {
-        setMessage(new AppMessage({
-          variant: MessageType.error,
-          message: 'Unable to get userdata from server. If the problem persists, contact SEAS Computing',
-          setMessage,
-        }));
+        dispatchMessage({
+          message: new AppMessage({
+            variant: MessageType.error,
+            message: 'Unable to get userdata from server. If the problem persists, contact SEAS Computing',
+          }),
+          type: MessageActions.push,
+        });
       });
   }, []);
 
   return (
     <div className="app">
       <UserContext.Provider value={currentUser}>
-        <MessageContext.Provider value={appMessage}>
+        <MessageContext.Provider value={dispatchMessage}>
           <div>
             <div>Your app is now loaded.</div>
           </div>
-          <Message />
+          {currentMessage
+            && (
+              <Message
+                messageCount={queue.length}
+                messageText={currentMessage.message}
+                messageType={currentMessage.variant}
+              />
+            )}
         </MessageContext.Provider>
       </UserContext.Provider>
     </div>
