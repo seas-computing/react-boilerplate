@@ -8,10 +8,7 @@ import React, {
 import { hot } from 'react-hot-loader/root';
 import {
   AppMessage,
-  MessageActions,
   MessageContext,
-  MessageType,
-  messageReducer,
   UserContext,
 } from '../context';
 import { User } from '../../server/models';
@@ -37,7 +34,7 @@ const App: SFC = (): ReactElement => {
    * */
 
   const [{ currentMessage, queue }, dispatchMessage] = useReducer(
-    messageReducer,
+    AppMessage.reducer,
     {
       queue: [],
       currentMessage: undefined,
@@ -57,20 +54,17 @@ const App: SFC = (): ReactElement => {
       })
       .then((user): void => {
         dispatchMessage({
-          message: new AppMessage({
-            variant: MessageType.info,
-            message: `Current User: ${user.fullName}`,
-          }),
-          type: MessageActions.push,
+          message: new AppMessage(`Current User: ${user.fullName}`),
+          type: AppMessage.Action.push,
         });
       })
       .catch((): void => {
         dispatchMessage({
-          message: new AppMessage({
-            variant: MessageType.error,
-            message: 'Unable to get userdata from server. If the problem persists, contact SEAS Computing',
-          }),
-          type: MessageActions.push,
+          message: new AppMessage(
+            'Unable to get userdata from server. If the problem persists, contact SEAS Computing',
+            AppMessage.Type.error
+          ),
+          type: AppMessage.Action.push,
         });
       });
   }, []);
@@ -92,8 +86,7 @@ const App: SFC = (): ReactElement => {
             )}
         </MessageContext.Provider>
       </UserContext.Provider>
-    </div>
-  );
+    </div>);
 };
 
 export default hot(App);
