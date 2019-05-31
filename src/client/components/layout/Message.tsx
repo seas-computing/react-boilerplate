@@ -1,9 +1,6 @@
 import React, { useContext, ReactElement, SFC } from 'react';
-import {
-  MessageContext,
-  MessageType,
-  AppMessage,
-} from '../../context';
+import { MessageType, AppMessage } from '../../classes';
+import { MessageContext } from '../../context';
 
 interface MessageProps {
   messageCount: number;

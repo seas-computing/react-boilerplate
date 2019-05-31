@@ -6,8 +6,8 @@ import React, {
   SFC,
 } from 'react';
 import { hot } from 'react-hot-loader/root';
+import { AppMessage } from '../classes';
 import {
-  AppMessage,
   MessageContext,
   UserContext,
 } from '../context';
@@ -80,7 +80,7 @@ const App: SFC = (): ReactElement => {
             && (
               <Message
                 messageCount={queue.length}
-                messageText={currentMessage.message}
+                messageText={currentMessage.text}
                 messageType={currentMessage.variant}
               />
             )}
