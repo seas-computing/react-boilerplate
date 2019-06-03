@@ -6,14 +6,14 @@ import React, {
   SFC,
 } from 'react';
 import { hot } from 'react-hot-loader/root';
-import { AppMessage } from '../classes';
+import { User } from 'server/models';
+import { AppMessage } from 'client/classes';
 import {
   MessageContext,
   messageReducer,
   UserContext,
-} from '../context';
-import { User } from '../../server/models';
-import { getCurrentUser } from '../api';
+} from 'client/context';
+import { getCurrentUser } from 'client/api';
 import { Message } from './layout';
 
 /**
@@ -21,7 +21,7 @@ import { Message } from './layout';
  * mounts, then saves it to the UserContext to pass down to other components
  */
 
-const App: SFC = (): ReactElement => {
+const ColdApp: SFC = (): ReactElement => {
   /**
    * Hook for maintaining the currently selected user
    * */
@@ -62,7 +62,7 @@ const App: SFC = (): ReactElement => {
       .catch((): void => {
         dispatchMessage({
           message: new AppMessage(
-            'Unable to get userdata from server. If the problem persists, contact SEAS Computing',
+            'Unable to get user data from server. If the problem persists, contact SEAS Computing',
             AppMessage.Type.error
           ),
           type: AppMessage.Action.push,
@@ -74,21 +74,23 @@ const App: SFC = (): ReactElement => {
     <div className="app">
       <UserContext.Provider value={currentUser}>
         <MessageContext.Provider value={dispatchMessage}>
-          <div>
-            <div>Your app is now loaded.</div>
+          <div className="app-content">
+            <div>
+              Your app is now loaded.
+            </div>
+            {currentMessage
+              && (
+                <Message
+                  messageCount={queue.length}
+                  messageText={currentMessage.text}
+                  messageType={currentMessage.variant}
+                />
+              )}
           </div>
-          {currentMessage
-            && (
-              <Message
-                messageCount={queue.length}
-                messageText={currentMessage.text}
-                messageType={currentMessage.variant}
-              />
-            )}
         </MessageContext.Provider>
       </UserContext.Provider>
     </div>
   );
 };
 
-export default hot(App);
+export const App = hot(ColdApp);
