@@ -15,9 +15,9 @@ module.exports = {
   file: '.mochainit.ts',
   recursive: true,
   require: [
-    'jsdom-global/register',
-    'raf/polyfill',
     'ts-node/register',
+    'raf/polyfill',
+    'tsconfig-paths/register',
   ],
   extension: ['ts', 'tsx', 'js'],
   spec: specGlobs.length > 0
