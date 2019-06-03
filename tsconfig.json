@@ -11,9 +11,14 @@
     "target": "ES6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
+    "baseUrl": "./src",
+    "incremental": true,
+    "paths": {
+      "testData": ["common/__tests__/data/index.ts"],
+      "client/*": ["client/*"],
+      "server/*": ["server/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", ".mochainit.ts"],
   "exclude": ["node_modules", "dist"]
 }

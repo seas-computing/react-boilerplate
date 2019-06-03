@@ -1,4 +1,4 @@
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
@@ -25,6 +25,13 @@ const nestBlacklist = [
   '^redis$',
 ];
 
+const srcPath = (dir) => join(__dirname, 'src', dir);
+
+const aliases = {
+  client: srcPath('client'),
+  server: srcPath('server'),
+};
+
 const client = {
   name: 'client',
   mode: 'production',
@@ -36,6 +43,7 @@ const client = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    aliases,
   },
   target: 'web',
   module: {
@@ -66,6 +74,7 @@ const server = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    aliases,
   },
   externals: [
   ],
