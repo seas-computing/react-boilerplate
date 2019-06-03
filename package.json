@@ -90,7 +90,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "docs": "typedoc",
-    "lint": "eslint --ext=ts,js .",
+    "lint": "eslint --ext=ts,tsx,js ./src",
     "test": "nyc mocha",
     "test:watch": "mocha --watch",
     "start": "nodemon"
