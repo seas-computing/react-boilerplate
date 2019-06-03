@@ -1,4 +1,5 @@
 import { strictEqual } from 'assert';
+import * as dummy from 'testData';
 import {
   messageReducer,
   MessageReducerState,
@@ -6,9 +7,8 @@ import {
 import {
   AppMessage,
 } from '../../classes';
-import * as dummy from '../../../common/__tests__/data';
 
-describe('reducer', function () {
+describe('Message Reducer', function () {
   let reducedState: MessageReducerState;
   let testMessage: AppMessage;
   describe('Pushing onto the queue', function () {
