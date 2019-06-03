@@ -2,7 +2,7 @@ import React, { useContext, ReactElement, SFC } from 'react';
 import { MessageType, AppMessage } from '../../classes';
 import { MessageContext } from '../../context';
 
-interface MessageProps {
+export interface MessageProps {
   messageCount: number;
   messageText: string;
   messageType: MessageType;
