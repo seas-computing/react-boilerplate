@@ -9,6 +9,7 @@ import { hot } from 'react-hot-loader/root';
 import { AppMessage } from '../classes';
 import {
   MessageContext,
+  messageReducer,
   UserContext,
 } from '../context';
 import { User } from '../../server/models';
@@ -34,7 +35,7 @@ const App: SFC = (): ReactElement => {
    * */
 
   const [{ currentMessage, queue }, dispatchMessage] = useReducer(
-    AppMessage.reducer,
+    messageReducer,
     {
       queue: [],
       currentMessage: undefined,
@@ -86,7 +87,8 @@ const App: SFC = (): ReactElement => {
             )}
         </MessageContext.Provider>
       </UserContext.Provider>
-    </div>);
+    </div>
+  );
 };
 
 export default hot(App);

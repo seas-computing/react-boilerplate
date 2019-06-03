@@ -1,0 +1,156 @@
+import { strictEqual } from 'assert';
+import {
+  messageReducer,
+  MessageReducerState,
+} from '../MessageContext';
+import {
+  AppMessage,
+} from '../../classes';
+import * as dummy from '../../../common/__tests__/data';
+
+describe('reducer', function () {
+  let reducedState: MessageReducerState;
+  let testMessage: AppMessage;
+  describe('Pushing onto the queue', function () {
+    context('With no current message', function () {
+      beforeEach(function () {
+        testMessage = new AppMessage(dummy.string);
+        reducedState = messageReducer(
+          {
+            queue: [],
+            currentMessage: null,
+          },
+          {
+            type: AppMessage.Action.push,
+            message: testMessage,
+          }
+        );
+      });
+      it('Should leave the queue empty', function () {
+        strictEqual(reducedState.queue.length, 0);
+      });
+      it('Should set the current message to action message', function () {
+        strictEqual(reducedState.currentMessage, testMessage);
+      });
+    });
+    context('With a current message in state', function () {
+      let oldCurrentMessage: AppMessage;
+      context('and nothing in the queue', function () {
+        beforeEach(function () {
+          testMessage = new AppMessage(dummy.string);
+          oldCurrentMessage = new AppMessage('Old Current Message');
+          reducedState = messageReducer(
+            {
+              queue: [],
+              currentMessage: oldCurrentMessage,
+            },
+            {
+              type: AppMessage.Action.push,
+              message: testMessage,
+            }
+          );
+        });
+        it('Should leave the current Message as is', function () {
+          strictEqual(reducedState.currentMessage, oldCurrentMessage);
+        });
+        it('Should add the new action message to the queue', function () {
+          strictEqual(reducedState.queue.length, 1);
+          strictEqual(reducedState.queue[0], testMessage);
+        });
+      });
+      context('and one in the queue', function () {
+        let oldQueuedMessage: AppMessage;
+        beforeEach(function () {
+          testMessage = new AppMessage(dummy.string);
+          oldCurrentMessage = new AppMessage('Old Current Message');
+          oldQueuedMessage = new AppMessage('Old Queued Message');
+          reducedState = messageReducer(
+            {
+              queue: [oldQueuedMessage],
+              currentMessage: oldCurrentMessage,
+            },
+            {
+              type: AppMessage.Action.push,
+              message: testMessage,
+            }
+          );
+        });
+        it('Should leave the old queued message first in queue', function () {
+          strictEqual(reducedState.queue[0], oldQueuedMessage);
+        });
+        it('Should leave the old current message in place', function () {
+          strictEqual(reducedState.currentMessage, oldCurrentMessage);
+        });
+        it('Should add the new message to the end of the queue', function () {
+          strictEqual(reducedState.queue.length, 2);
+          strictEqual(reducedState.queue[1], testMessage);
+        });
+      });
+    });
+  });
+  describe('clearing the current Message', function () {
+    context('With no current message', function () {
+      beforeEach(function () {
+        reducedState = messageReducer(
+          {
+            queue: [],
+            currentMessage: null,
+          },
+          {
+            type: AppMessage.Action.clear,
+          }
+        );
+      });
+      it('Should leave the queue empty', function () {
+        strictEqual(reducedState.queue.length, 0);
+      });
+      it('Should set the current message to undefined', function () {
+        strictEqual(reducedState.currentMessage, undefined);
+      });
+    });
+    context('With a current message in state', function () {
+      context('and nothing in the queue', function () {
+        beforeEach(function () {
+          testMessage = new AppMessage('Old Current Message');
+          reducedState = messageReducer(
+            {
+              queue: [],
+              currentMessage: testMessage,
+            },
+            {
+              type: AppMessage.Action.clear,
+            }
+          );
+        });
+        it('Should leave the queue empty', function () {
+          strictEqual(reducedState.queue.length, 0);
+        });
+        it('Should set the current Message to undefined', function () {
+          strictEqual(reducedState.currentMessage, undefined);
+        });
+      });
+      context('and one in the queue', function () {
+        let queuedMessage: AppMessage;
+        beforeEach(function () {
+          testMessage = new AppMessage('Old Current Message');
+          queuedMessage = new AppMessage('Old Queued Message');
+          reducedState = messageReducer(
+            {
+              queue: [queuedMessage],
+              currentMessage: testMessage,
+            },
+            {
+              type: AppMessage.Action.clear,
+            }
+          );
+        });
+        it('Should empty the queue', function () {
+          strictEqual(reducedState.queue.length, 0);
+        });
+        it('Should replace the current message with the queued message', function () {
+          strictEqual(reducedState.currentMessage, queuedMessage);
+        });
+      });
+    });
+  });
+});

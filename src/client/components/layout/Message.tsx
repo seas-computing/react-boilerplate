@@ -5,7 +5,7 @@ import { MessageContext } from '../../context';
 interface MessageProps {
   messageCount: number;
   messageText: string;
-  messageType: MessageType; 
+  messageType: MessageType;
 }
 
 export const Message: SFC<MessageProps> = ({
