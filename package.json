@@ -90,7 +90,7 @@
   },
   "scripts": {
     "build": "webpack --mode=production",
-    "codecov": "nyc report --reporter=text-lcov > coverage.lvoc && codecov",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "docs": "typedoc",
     "lint": "eslint --ext=ts,tsx,js ./src",
     "test": "nyc mocha",
