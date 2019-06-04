@@ -26,4 +26,5 @@ jobs:
         on:
           branch: master
     - stage: build
-      script: docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
+      script: 
+      - docker build -t app/test .
