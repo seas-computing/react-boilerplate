@@ -4,6 +4,7 @@ import webpackDevServer from 'webpack-dev-middleware';
 import webpackHotServer from 'webpack-hot-middleware';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import HtmlWebpackRootPlugin from 'html-webpack-root-plugin';
+import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const publicPath = '/';
 
@@ -48,6 +49,9 @@ const compiler = webpack([{
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
+    plugins: [
+      new TSConfigPathsPlugin(),
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
