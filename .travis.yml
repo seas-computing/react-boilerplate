@@ -11,9 +11,11 @@ stages:
   - if: branch = master OR branch = develop OR type = pull_request
 jobs:
   include:
-    - script: npm run lint
-    - script: npm run test
-    - script: npm run codecov
+    - stage: test
+      script: 
+      - npm run lint
+      - npm run test
+      - npm run codecov
     - stage: documentation
       script: npm run docs
       deploy:
