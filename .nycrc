@@ -4,7 +4,7 @@
   "statements": 80,
   "functions": 80,
   "extends": "@istanbul/nyc-config-typescript",
-  "all": true,
+  "all": false,
   "include": ["src/**/*"],
   "exclude": ["src/**/__tests__/*"],
   "extension": [".js", ".ts", ".tsx"],
