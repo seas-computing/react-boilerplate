@@ -8,7 +8,7 @@ stages:
   - name: documentation
     if: branch = master
   - name: build
-  - if: branch = master OR branch = develop OR type = pull_request
+  - if: branch = master OR branch = develop
 jobs:
   include:
     - stage: test
@@ -26,4 +26,4 @@ jobs:
         on:
           branch: master
     - stage: build
-      script: docker build -t $TRAVIS_REPO_SLUG/v$TRAVIS_BUILD_NUMBER .
+      script: docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_BUILD_NUMBER .
