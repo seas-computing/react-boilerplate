@@ -37,7 +37,7 @@
     "@types/webpack-hot-middleware": "^2.16.5",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "babel-loader": "^8.0.6",
     "cas-authentication": "^0.0.8",
     "connect-mongo": "^2.0.3",
@@ -90,6 +90,7 @@
   },
   "scripts": {
     "build": "webpack --mode=production",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lvoc && codecov",
     "docs": "typedoc",
     "lint": "eslint --ext=ts,tsx,js ./src",
     "test": "nyc mocha",
@@ -98,6 +99,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^8.0.1",
+    "codecov": "^3.5.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.0",
