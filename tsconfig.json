@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "jsx": "react",
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -10,8 +11,13 @@
     "target": "ES6",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
+    "baseUrl": "./src",
+    "incremental": true,
+    "paths": {
+      "testData": ["common/__tests__/data/index.ts"],
+      "client/*": ["client/*"],
+      "server/*": ["server/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
