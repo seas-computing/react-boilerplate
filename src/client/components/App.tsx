@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { User } from 'server/models';
-import { AppMessage } from 'client/classes';
+import { MESSAGE_TYPE, MESSAGE_ACTION, AppMessage } from 'client/classes';
 import {
   MessageContext,
   messageReducer,
@@ -56,16 +56,16 @@ const ColdApp: SFC = (): ReactElement => {
       .then((user): void => {
         dispatchMessage({
           message: new AppMessage(`Current User: ${user.fullName}`),
-          type: AppMessage.Action.push,
+          type: MESSAGE_ACTION.PUSH,
         });
       })
       .catch((): void => {
         dispatchMessage({
           message: new AppMessage(
             'Unable to get user data from server. If the problem persists, contact SEAS Computing',
-            AppMessage.Type.error
+            MESSAGE_TYPE.ERROR
           ),
-          type: AppMessage.Action.push,
+          type: MESSAGE_ACTION.PUSH,
         });
       });
   }, []);

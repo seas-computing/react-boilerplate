@@ -3,7 +3,7 @@ import { strictEqual } from 'assert';
 import { render, fireEvent } from '@testing-library/react';
 import { stub, SinonStub, useFakeTimers } from 'sinon';
 import * as dummy from 'testData';
-import { MessageType } from 'client/classes';
+import { MESSAGE_TYPE } from 'client/classes';
 import { MessageContext } from 'client/context';
 import { Message, MessageProps } from '../Message';
 
@@ -11,7 +11,7 @@ describe('Message', function () {
   const props: MessageProps = {
     messageCount: dummy.int,
     messageText: dummy.string,
-    messageType: MessageType.error,
+    messageType: MESSAGE_TYPE.ERROR,
   };
   describe('rendering', function () {
     it('Should display the message', async function () {
@@ -56,7 +56,11 @@ describe('Message', function () {
     it('should automatically clear non-error messages after 5 seconds', function () {
       render(
         <MessageContext.Provider value={dispatchStub}>
-          <Message {...props} messageType={MessageType.info} messageCount={0} />
+          <Message
+            {...props}
+            messageType={MESSAGE_TYPE.INFO}
+            messageCount={0}
+          />
         </MessageContext.Provider>
       );
       strictEqual(dispatchStub.callCount, 0);
@@ -69,7 +73,7 @@ describe('Message', function () {
         <MessageContext.Provider value={dispatchStub}>
           <Message
             {...props}
-            messageType={MessageType.error}
+            messageType={MESSAGE_TYPE.ERROR}
             messageCount={0}
           />
         </MessageContext.Provider>

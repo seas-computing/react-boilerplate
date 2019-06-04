@@ -1,12 +1,7 @@
 import { strictEqual } from 'assert';
 import * as dummy from 'testData';
-import {
-  messageReducer,
-  MessageReducerState,
-} from '../MessageContext';
-import {
-  AppMessage,
-} from '../../classes';
+import { messageReducer, MessageReducerState } from '../MessageContext';
+import { AppMessage, MESSAGE_ACTION } from '../../classes';
 
 describe('Message Reducer', function () {
   let reducedState: MessageReducerState;
@@ -21,7 +16,7 @@ describe('Message Reducer', function () {
             currentMessage: null,
           },
           {
-            type: AppMessage.Action.push,
+            type: MESSAGE_ACTION.PUSH,
             message: testMessage,
           }
         );
@@ -45,7 +40,7 @@ describe('Message Reducer', function () {
               currentMessage: oldCurrentMessage,
             },
             {
-              type: AppMessage.Action.push,
+              type: MESSAGE_ACTION.PUSH,
               message: testMessage,
             }
           );
@@ -70,7 +65,7 @@ describe('Message Reducer', function () {
               currentMessage: oldCurrentMessage,
             },
             {
-              type: AppMessage.Action.push,
+              type: MESSAGE_ACTION.PUSH,
               message: testMessage,
             }
           );
@@ -97,7 +92,7 @@ describe('Message Reducer', function () {
             currentMessage: null,
           },
           {
-            type: AppMessage.Action.clear,
+            type: MESSAGE_ACTION.CLEAR,
           }
         );
       });
@@ -118,7 +113,7 @@ describe('Message Reducer', function () {
               currentMessage: testMessage,
             },
             {
-              type: AppMessage.Action.clear,
+              type: MESSAGE_ACTION.CLEAR,
             }
           );
         });
@@ -140,7 +135,7 @@ describe('Message Reducer', function () {
               currentMessage: testMessage,
             },
             {
-              type: AppMessage.Action.clear,
+              type: MESSAGE_ACTION.CLEAR,
             }
           );
         });

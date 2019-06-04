@@ -2,32 +2,28 @@
  * Possible types of message to display to the user
  */
 
-export enum MessageType {
-  error = 'error',
-  success = 'success',
-  info = 'info',
+export enum MESSAGE_TYPE {
+  ERROR = 'ERROR',
+  SUCCESS = 'SUCCESS',
+  INFO = 'INFO',
 }
 
 /**
  * Possible actions to take on the message queue
  */
 
-export enum MessageAction {
-  push = 'push',
-  clear = 'clear',
+export enum MESSAGE_ACTION {
+  PUSH = 'PUSH',
+  CLEAR = 'CLEAR',
 }
 /**
  * Used for displaying messages on the client
  */
 
 export class AppMessage {
-  public readonly variant: MessageType;
+  public readonly variant: MESSAGE_TYPE;
 
   public readonly text: string;
-
-  public static Type = MessageType;
-
-  public static Action = MessageAction;
 
   /**
    * Create a new application message. By default, sets the message priority to
@@ -36,7 +32,7 @@ export class AppMessage {
 
   public constructor(
     message: string,
-    variant: MessageType = MessageType.info
+    variant: MESSAGE_TYPE = MESSAGE_TYPE.INFO
   ) {
     this.variant = variant;
     this.text = message;

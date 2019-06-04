@@ -1,7 +1,5 @@
 import { strictEqual } from 'assert';
-import {
-  AppMessage,
-} from '..';
+import { AppMessage, MESSAGE_TYPE } from '..';
 import * as dummy from '../../../common/__tests__/data';
 
 describe('AppMessage', function () {
@@ -9,13 +7,13 @@ describe('AppMessage', function () {
     let message: AppMessage;
     describe('With an explicit type', function () {
       beforeEach(function () {
-        message = new AppMessage(dummy.string, AppMessage.Type.error);
+        message = new AppMessage(dummy.string, MESSAGE_TYPE.ERROR);
       });
       it('Should set the message text to the provided value', function () {
         strictEqual(message.text, dummy.string);
       });
       it('Should set the variant to the provided value', function () {
-        strictEqual(message.variant, AppMessage.Type.error);
+        strictEqual(message.variant, MESSAGE_TYPE.ERROR);
       });
     });
     describe('Without an explicit type', function () {
@@ -26,7 +24,7 @@ describe('AppMessage', function () {
         strictEqual(message.text, dummy.string);
       });
       it('Should set the variant to info', function () {
-        strictEqual(message.variant, AppMessage.Type.info);
+        strictEqual(message.variant, MESSAGE_TYPE.INFO);
       });
     });
   });

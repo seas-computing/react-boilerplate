@@ -1,11 +1,11 @@
 import React, { useContext, ReactElement, SFC } from 'react';
-import { MessageType, AppMessage } from '../../classes';
+import { MESSAGE_TYPE, MESSAGE_ACTION } from '../../classes';
 import { MessageContext } from '../../context';
 
 export interface MessageProps {
   messageCount: number;
   messageText: string;
-  messageType: MessageType;
+  messageType: MESSAGE_TYPE;
 }
 
 export const Message: SFC<MessageProps> = ({
@@ -23,9 +23,9 @@ export const Message: SFC<MessageProps> = ({
    * auto-clear non-error messages after 5 seconds
    */
 
-  if (messageType !== AppMessage.Type.error) {
+  if (messageType !== MESSAGE_TYPE.ERROR) {
     setTimeout((): void => {
-      messageDispatch({ type: AppMessage.Action.clear });
+      messageDispatch({ type: MESSAGE_ACTION.CLEAR });
     }, 5000);
   }
 
@@ -36,7 +36,7 @@ export const Message: SFC<MessageProps> = ({
         <button
           type="button"
           onClick={(): void => {
-            messageDispatch({ type: AppMessage.Action.clear });
+            messageDispatch({ type: MESSAGE_ACTION.CLEAR });
           }}
         >
           {messageCount > 0 ? `Next (${messageCount})` : 'clear'}

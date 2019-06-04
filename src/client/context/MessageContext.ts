@@ -1,5 +1,5 @@
 import { createContext, Context, Reducer } from 'react';
-import { AppMessage, MessageAction } from '../classes';
+import { AppMessage, MESSAGE_ACTION } from '../classes';
 /**
  * Global message provider
  */
@@ -24,7 +24,7 @@ export interface MessageReducerState {
  */
 
 export interface MessageReducerAction {
-  type: MessageAction;
+  type: MESSAGE_ACTION;
   message?: AppMessage;
 }
 
@@ -36,7 +36,7 @@ Reducer<MessageReducerState, MessageReducerAction> = (
 ): MessageReducerState => {
   const { currentMessage, queue } = state;
   switch (action.type) {
-    case (MessageAction.push): {
+    case (MESSAGE_ACTION.PUSH): {
       if (!currentMessage) {
         return ({
           ...state,
@@ -49,7 +49,7 @@ Reducer<MessageReducerState, MessageReducerAction> = (
         queue: newQueue,
       };
     }
-    case (MessageAction.clear): {
+    case (MESSAGE_ACTION.CLEAR): {
       const nextQueue = [...queue];
       const nextMessage = nextQueue.shift();
       return {
