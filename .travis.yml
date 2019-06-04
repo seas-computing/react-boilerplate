@@ -1,0 +1,22 @@
+language: node_js
+services:
+  - docker
+jobs:
+  include:
+    - stage: lint
+      script: npx run lint
+    - stage: test
+      script: npm run test
+    - stage: build
+      script: docker-compose build
+    - stage: coverage
+      script: npm run codecov
+    - stage: docs
+      script: npm run docs
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        local_dir: ./docs
+        target_branch: gh-pages
+        on:
+          branch: master
