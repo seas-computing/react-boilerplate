@@ -3,17 +3,18 @@ node_js:
     - "10"
 services:
   - docker
+stages:
+  - test
+  - name: documentation
+    if: branch = master
+  - name: build
+  - branch = master OR branch = develop OR type = pull_request
 jobs:
   include:
-    - stage: lint
-      script: npm run lint
-    - stage: test
-      script: npm run test
-    - stage: build
-      script: docker-compose build
-    - stage: coverage
-      script: npm run codecov
-    - stage: docs
+    - script: npm run lint
+    - script: npm run test
+    - script: npm run codecov
+    - stage: documentation
       script: npm run docs
       deploy:
         provider: pages
@@ -22,3 +23,5 @@ jobs:
         target_branch: gh-pages
         on:
           branch: master
+    - stage: build
+      script: docker build -t $TRAVIS_REPO_SLUG/v$TRAVIS_BUILD_NUMBER .
