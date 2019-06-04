@@ -6,7 +6,7 @@ services:
 jobs:
   include:
     - stage: lint
-      script: npx run lint
+      script: npm run lint
     - stage: test
       script: npm run test
     - stage: build
