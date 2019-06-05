@@ -47,36 +47,42 @@ const optimization = {
   },
 };
 
+const mode = 'none';
+
+const wpResolve = {
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  plugins: [
+    new TSConfigPathsPlugin(),
+  ],
+};
+
+const tsLoader = {
+  test: /\.tsx?$/,
+  include: resolve(__dirname, 'src'),
+  exclude: /node_modules/,
+  use: [
+    {
+      loader: 'ts-loader',
+      options: {
+        happyPackMode: true,
+      },
+    },
+  ],
+};
+
 const client = {
   name: 'client',
-  mode: 'none',
+  mode,
   entry: ['./src/client/index.ts'],
   output: {
     path: resolve(__dirname, 'build/static'),
     filename: 'app.js',
     publicPath: '/static/',
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    plugins: [
-      new TSConfigPathsPlugin(),
-    ],
-  },
+  resolve: wpResolve,
   target: 'web',
   module: {
-    rules: [
-      {
-        test: /\tsx?$/,
-        include: resolve(__dirname, 'src/client'),
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            happyPackMode: true,
-          },
-        },
-      },
-    ],
+    rules: [tsLoader],
   },
   optimization,
   plugins: [
@@ -90,35 +96,16 @@ const client = {
 
 const server = {
   name: 'server',
-  mode: 'none',
+  mode,
   entry: ['./src/server/index.ts'],
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    plugins: [
-      new TSConfigPathsPlugin(),
-    ],
-  },
-  externals: [
-  ],
+  resolve: wpResolve,
   target: 'node',
   module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        include: resolve(__dirname, 'src/server'),
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            happyPackMode: true,
-          },
-        },
-      },
-    ],
+    rules: [tsLoader],
   },
   optimization,
   plugins: [
