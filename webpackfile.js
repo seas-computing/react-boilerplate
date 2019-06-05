@@ -113,6 +113,7 @@ const server = {
       contextRegExp: /@nestjs/,
       resourceRegExp: new RegExp(nestBlacklist.join('|')),
     }),
+    new webpack.IgnorePlugin(/^\.\/middleware\/dev\.middleware$/),
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],
   node: {
