@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
+const TerserPlugin = require('terser-webpack-plugin');
 /**
  * NestJs uses a custom wrapper around require() for allows it to show a
  * warning when some extra package needs to be installed. This causes problems
@@ -28,10 +28,10 @@ const nestBlacklist = [
 
 const client = {
   name: 'client',
-  mode: 'production',
+  mode: 'none',
   entry: ['./src/client/index.ts'],
   output: {
-    path: resolve(__dirname, 'dist/static'),
+    path: resolve(__dirname, 'build/static'),
     filename: 'app.js',
     publicPath: '/static/',
   },
@@ -43,29 +43,48 @@ const client = {
   },
   target: 'web',
   module: {
-    rules: [{
-      test: /\.[jt]sx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'ts-loader',
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        include: resolve(__dirname, 'src/client'),
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            happyPackMode: true,
+          },
+        },
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [new TerserPlugin()],
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        assets: {
+          test: /node_modules/,
+          filename: '[name].app.js',
+          chunks: 'all',
+        },
       },
     },
-    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
     }),
     new HtmlWebpackRootPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };
 
 const server = {
   name: 'server',
-  mode: 'production',
+  mode: 'none',
   entry: ['./src/server/index.ts'],
   output: {
-    path: resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
   resolve: {
@@ -81,18 +100,36 @@ const server = {
     rules: [
       {
         test: /\.tsx?$/,
+        include: resolve(__dirname, 'src/server'),
         exclude: /node_modules/,
         use: {
           loader: 'ts-loader',
+          options: {
+            happyPackMode: true,
+          },
         },
       },
     ],
+  },
+  optimization: {
+    minimizer: [new TerserPlugin()],
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        assets: {
+          test: /node_modules/,
+          chunks: 'all',
+          filename: '[name].server.js',
+        },
+      },
+    },
   },
   plugins: [
     new webpack.IgnorePlugin({
       contextRegExp: /@nestjs/,
       resourceRegExp: new RegExp(nestBlacklist.join('|')),
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
   node: {
     __dirname: false,
