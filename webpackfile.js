@@ -26,6 +26,27 @@ const nestBlacklist = [
   '^redis$',
 ];
 
+const optimization = {
+  minimize: true,
+  minimizer: [new TerserPlugin()],
+  noEmitOnErrors: true,
+  nodeEnv: 'production',
+  occurrenceOrder: true,
+  providedExports: true,
+  usedExports: true,
+  sideEffects: true,
+  splitChunks: {
+    name: true,
+    cacheGroups: {
+      assets: {
+        test: /node_modules/,
+        chunks: 'all',
+        filename: '[name].server.js',
+      },
+    },
+  },
+};
+
 const client = {
   name: 'client',
   mode: 'none',
@@ -45,7 +66,7 @@ const client = {
   module: {
     rules: [
       {
-        test: /\.[jt]sx?$/,
+        test: /\tsx?$/,
         include: resolve(__dirname, 'src/client'),
         exclude: /node_modules/,
         use: {
@@ -57,19 +78,7 @@ const client = {
       },
     ],
   },
-  optimization: {
-    minimizer: [new TerserPlugin()],
-    splitChunks: {
-      name: true,
-      cacheGroups: {
-        assets: {
-          test: /node_modules/,
-          filename: '[name].app.js',
-          chunks: 'all',
-        },
-      },
-    },
-  },
+  optimization,
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
@@ -111,19 +120,7 @@ const server = {
       },
     ],
   },
-  optimization: {
-    minimizer: [new TerserPlugin()],
-    splitChunks: {
-      name: true,
-      cacheGroups: {
-        assets: {
-          test: /node_modules/,
-          chunks: 'all',
-          filename: '[name].server.js',
-        },
-      },
-    },
-  },
+  optimization,
   plugins: [
     new webpack.IgnorePlugin({
       contextRegExp: /@nestjs/,
