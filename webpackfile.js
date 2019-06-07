@@ -5,7 +5,7 @@ const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 /**
- * NestJs uses a custom wrapper around require() for allows it to show a
+ * NestJs uses a custom wrapper around require() that allows it to show a
  * warning when some extra package needs to be installed. This causes problems
  * with webpack, so we're blacklisting packages we're not using with the
  * IgnorePlugin below.
