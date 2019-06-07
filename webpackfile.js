@@ -3,9 +3,9 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
+const TerserPlugin = require('terser-webpack-plugin');
 /**
- * NestJs uses a custom wrapper around require() for allows it to show a
+ * NestJs uses a custom wrapper around require() that allows it to show a
  * warning when some extra package needs to be installed. This causes problems
  * with webpack, so we're blacklisting packages we're not using with the
  * IgnorePlugin below.
@@ -26,73 +26,95 @@ const nestBlacklist = [
   '^redis$',
 ];
 
+const optimization = {
+  minimize: true,
+  minimizer: [new TerserPlugin()],
+  noEmitOnErrors: true,
+  nodeEnv: 'production',
+  occurrenceOrder: true,
+  providedExports: true,
+  usedExports: true,
+  sideEffects: true,
+  splitChunks: {
+    name: true,
+    cacheGroups: {
+      assets: {
+        test: /node_modules/,
+        chunks: 'all',
+        filename: '[name].server.js',
+      },
+    },
+  },
+};
+
+const mode = 'none';
+
+const wpResolve = {
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  plugins: [
+    new TSConfigPathsPlugin(),
+  ],
+};
+
+const tsLoader = {
+  test: /\.tsx?$/,
+  include: resolve(__dirname, 'src'),
+  exclude: /node_modules/,
+  use: [
+    {
+      loader: 'ts-loader',
+      options: {
+        happyPackMode: true,
+      },
+    },
+  ],
+};
+
 const client = {
   name: 'client',
-  mode: 'production',
+  mode,
   entry: ['./src/client/index.ts'],
   output: {
-    path: resolve(__dirname, 'dist/static'),
+    path: resolve(__dirname, 'build/static'),
     filename: 'app.js',
     publicPath: '/static/',
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    plugins: [
-      new TSConfigPathsPlugin(),
-    ],
-  },
+  resolve: wpResolve,
   target: 'web',
   module: {
-    rules: [{
-      test: /\.[jt]sx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'ts-loader',
-      },
-    },
-    ],
+    rules: [tsLoader],
   },
+  optimization,
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
     }),
     new HtmlWebpackRootPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
 };
 
 const server = {
   name: 'server',
-  mode: 'production',
+  mode,
   entry: ['./src/server/index.ts'],
   output: {
-    path: resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'build'),
     filename: 'server.js',
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    plugins: [
-      new TSConfigPathsPlugin(),
-    ],
-  },
-  externals: [
-  ],
+  resolve: wpResolve,
   target: 'node',
   module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'ts-loader',
-        },
-      },
-    ],
+    rules: [tsLoader],
   },
+  optimization,
   plugins: [
     new webpack.IgnorePlugin({
       contextRegExp: /@nestjs/,
       resourceRegExp: new RegExp(nestBlacklist.join('|')),
     }),
+    new webpack.IgnorePlugin(/^\.\/middleware\/dev\.middleware$/),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ],
   node: {
     __dirname: false,

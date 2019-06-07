@@ -8,8 +8,6 @@ import {
   ConfigService,
 } from './services';
 import {
-  devServer,
-  hotServer,
   SessionMiddleware,
 } from './middleware';
 
@@ -47,6 +45,8 @@ class AppModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): void {
     consumer.apply(SessionMiddleware).forRoutes('*');
     if (this.config.isDevelopment) {
+      // eslint-disable-next-line
+      const { devServer, hotServer } = require('./middleware/dev.middleware');
       consumer.apply(devServer, hotServer).forRoutes('/');
     }
   }

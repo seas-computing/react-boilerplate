@@ -37,7 +37,7 @@
     "@types/webpack-hot-middleware": "^2.16.5",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "babel-loader": "^8.0.6",
     "cas-authentication": "^0.0.8",
     "connect-mongo": "^2.0.3",
@@ -80,6 +80,7 @@
     "string-replace-loader": "^2.1.1",
     "style-loader": "^0.23.1",
     "supertest": "^4.0.2",
+    "terser-webpack-plugin": "^1.3.0",
     "ts-loader": "^6.0.0",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "uglifyjs-webpack-plugin": "^2.1.3",
@@ -89,7 +90,8 @@
     "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
-    "build": "webpack --mode=production",
+    "build": "webpack",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "docs": "typedoc",
     "lint": "eslint --ext=ts,tsx,js ./src",
     "test": "nyc mocha",
@@ -98,6 +100,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^8.0.1",
+    "codecov": "^3.5.0",
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.0",
