@@ -6,6 +6,7 @@ import { HarvardKeyProfile } from 'server/interfaces';
 import { UnauthorizedException } from '@nestjs/common';
 import { SAMLStrategy } from '../saml.strategy';
 import { ConfigService } from '../config.service';
+import { User } from 'server/models';
 
 describe('SAML Strategy', function () {
   const config = {
@@ -66,5 +67,28 @@ describe('SAML Strategy', function () {
     } catch (error) {
       strictEqual(error instanceof UnauthorizedException, true);
     }
+  });
+  it('returns a dummy user when app is in dev mode', async function () {
+    config.isProduction = false;
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: ConfigService,
+          useValue: config,
+        },
+        SAMLStrategy,
+      ],
+    }).compile();
+
+    const saml = module.get<SAMLStrategy>(SAMLStrategy);
+
+    const user = await saml.validate();
+
+    deepStrictEqual(user, new User({
+      email: 'noreply@seas.harvard.edu',
+      id: 'abc123',
+      firstName: 'Test',
+      lastName: 'User',
+    }));
   });
 });
