@@ -99,6 +99,7 @@
     "start": "nodemon"
   },
   "devDependencies": {
+    "@nestjs/testing": "^6.3.1",
     "@testing-library/react": "^8.0.1",
     "codecov": "^3.5.0",
     "eslint": "^5.16.0",
