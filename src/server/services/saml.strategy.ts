@@ -34,7 +34,12 @@ class SAMLStrategy extends PassportStrategy(Strategy) {
     if (!profile) {
       throw new UnauthorizedException('You are not authorized to use this application. Please contact SEAS computing');
     }
-    return User.fromProfile(profile);
+    return new User({
+      id: profile.eppn,
+      firstName: profile.givenName,
+      lastName: profile.sn,
+      email: profile.email,
+    });
   }
 }
 

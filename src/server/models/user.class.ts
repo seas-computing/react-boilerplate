@@ -29,19 +29,6 @@ export class User {
   }
 
   /**
-   * Create a user from the profile data returned by SAML
-   */
-
-  public static fromProfile(data: HarvardKeyProfile): User {
-    return new User({
-      id: data.eppn,
-      firstName: data.givenName,
-      lastName: data.sn,
-      email: data.email,
-    });
-  }
-
-  /**
    * Get the user's name as firstName lastName
    */
 
