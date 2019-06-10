@@ -1,5 +1,3 @@
-import { HarvardKeyProfile } from '../interfaces';
-
 /**
  * Basic user object
  */
