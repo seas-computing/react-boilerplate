@@ -22,7 +22,7 @@ class SAMLStrategy extends PassportStrategy(Strategy) {
     this.devMode = !config.isProduction;
   }
 
-  public async validate(profile: HarvardKeyProfile): Promise<User> {
+  public async validate(profile?: HarvardKeyProfile): Promise<User> {
     if (this.devMode) {
       return new User({
         id: 'abc123',

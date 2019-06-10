@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { stub } from 'sinon';
 import { regularUser } from 'common/__tests__/data';
-import { deepStrictEqual } from 'assert';
+import { deepStrictEqual, strictEqual } from 'assert';
+import { HarvardKeyProfile } from 'server/interfaces';
+import { UnauthorizedException } from '@nestjs/common';
 import { SAMLStrategy } from '../saml.strategy';
 import { ConfigService } from '../config.service';
 
 describe('SAML Strategy', function () {
-  let saml: SAMLStrategy;
-
   const config = {
     isProduction: null,
     get: stub(),
@@ -29,7 +29,7 @@ describe('SAML Strategy', function () {
       ],
     }).compile();
 
-    saml = module.get<SAMLStrategy>(SAMLStrategy);
+    const saml = module.get<SAMLStrategy>(SAMLStrategy);
 
     const {
       id,
@@ -43,8 +43,28 @@ describe('SAML Strategy', function () {
       givenName: firstName,
       sn: lastName,
       email,
-    } as any);
+    } as HarvardKeyProfile);
 
     deepStrictEqual(user, regularUser);
+  });
+  it('rejects failed auth attempts with an exception', async function () {
+    config.isProduction = true;
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: ConfigService,
+          useValue: config,
+        },
+        SAMLStrategy,
+      ],
+    }).compile();
+
+    const saml = module.get<SAMLStrategy>(SAMLStrategy);
+
+    try {
+      await saml.validate();
+    } catch (error) {
+      strictEqual(error instanceof UnauthorizedException, true);
+    }
   });
 });
