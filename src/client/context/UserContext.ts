@@ -1,5 +1,5 @@
 import { createContext, Context } from 'react';
-import { User } from '../../server/models/user.class';
+import { UserResponse as User } from 'client/dto/users/userResponse.dto';
 
 /**
  * Manage the currently logged-in user throught Context

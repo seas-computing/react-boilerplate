@@ -6,7 +6,6 @@ import React, {
   SFC,
 } from 'react';
 import { hot } from 'react-hot-loader/root';
-import { User } from 'server/models';
 import { MESSAGE_TYPE, MESSAGE_ACTION, AppMessage } from 'client/classes';
 import {
   MessageContext,
@@ -14,6 +13,7 @@ import {
   UserContext,
 } from 'client/context';
 import { getCurrentUser } from 'client/api';
+import { UserResponse as User } from 'client/dto/users/userResponse.dto';
 import { Message } from './layout';
 
 /**
