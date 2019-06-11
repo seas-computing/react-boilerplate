@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { strictEqual } from 'assert';
-import { stub } from 'sinon';
-import { ConfigService } from '../config.service';
 import { safeString } from 'testData';
+import { ConfigService } from '../config.service';
 
 describe('Configuration Service', function () {
   it('reports if the app is in production', async function () {
