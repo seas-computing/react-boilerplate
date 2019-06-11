@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { stub } from 'sinon';
-import { regularUser } from 'common/__tests__/data';
+import { regularUser } from 'testData';
 import { deepStrictEqual, strictEqual } from 'assert';
 import { HarvardKeyProfile } from 'server/interfaces';
 import { UnauthorizedException } from '@nestjs/common';
+import { User } from 'server/models';
 import { SAMLStrategy } from '../saml.strategy';
 import { ConfigService } from '../config.service';
-import { User } from 'server/models';
 
 describe('SAML Strategy', function () {
   const config = {
