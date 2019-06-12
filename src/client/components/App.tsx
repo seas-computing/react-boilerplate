@@ -13,7 +13,7 @@ import {
   UserContext,
 } from 'client/context';
 import { getCurrentUser } from 'client/api';
-import { UserResponse as User } from 'client/dto/users/userResponse.dto';
+import { UserResponse } from 'client/dto/users/userResponse.dto';
 import { Message } from './layout';
 
 /**
@@ -49,7 +49,7 @@ const ColdApp: SFC = (): ReactElement => {
 
   useEffect((): void => {
     getCurrentUser()
-      .then(({ data: user }): User => {
+      .then(({ data: user }): UserResponse => {
         setUser(user);
         return user;
       })

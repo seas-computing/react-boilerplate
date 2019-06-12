@@ -1,8 +1,8 @@
 import request, { AxiosPromise } from 'axios';
-import { UserResponse as User } from 'client/dto/users/userResponse.dto';
+import { UserResponse } from 'client/dto/users/userResponse.dto';
 
 /**
  * Get the currently authenticated user
  */
 
-export const getCurrentUser = (): AxiosPromise<User> => request.get('/api/users/current');
+export const getCurrentUser = (): AxiosPromise<UserResponse> => request.get('/api/users/current');

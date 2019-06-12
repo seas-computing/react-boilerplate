@@ -3,7 +3,7 @@ import { strictEqual } from 'assert';
 import { render, waitForElement } from '@testing-library/react';
 import { stub, SinonStub } from 'sinon';
 import { AxiosResponse } from 'axios';
-import { UserResponse as User } from 'client/dto/users/userResponse.dto';
+import { UserResponse } from 'client/dto/users/userResponse.dto';
 import * as dummy from 'testData';
 import * as api from 'client/api';
 import { App } from '../App';
@@ -14,7 +14,7 @@ describe('App', function () {
     apiStub = stub(api, 'getCurrentUser');
     apiStub.resolves({
       data: dummy.regularUser,
-    } as AxiosResponse<User>);
+    } as AxiosResponse<UserResponse>);
   });
   afterEach(function () {
     apiStub.restore();
@@ -28,7 +28,7 @@ describe('App', function () {
       beforeEach(function () {
         apiStub.resolves({
           data: dummy.regularUser,
-        } as AxiosResponse<User>);
+        } as AxiosResponse<UserResponse>);
       });
       it('displays the name of the current user', async function () {
         const { getByText } = render(<App />);
