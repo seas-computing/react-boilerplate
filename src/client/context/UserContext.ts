@@ -1,5 +1,5 @@
 import { createContext, Context } from 'react';
-import { UserResponse } from 'client/dto/users/userResponse.dto';
+import { UserResponse } from 'common/dto/dto/users/userResponse.dto';
 
 /**
  * Manage the currently logged-in user throught Context

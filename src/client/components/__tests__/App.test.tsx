@@ -3,7 +3,7 @@ import { strictEqual } from 'assert';
 import { render, waitForElement } from '@testing-library/react';
 import { stub, SinonStub } from 'sinon';
 import { AxiosResponse } from 'axios';
-import { UserResponse } from 'client/dto/users/userResponse.dto';
+import { UserResponse } from 'common/dto/dto/users/userResponse.dto';
 import * as dummy from 'testData';
 import * as api from 'client/api';
 import { App } from '../App';
