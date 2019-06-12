@@ -1,5 +1,5 @@
 import request, { AxiosPromise } from 'axios';
-import { UserResponse } from 'common/dto/dto/users/userResponse.dto';
+import { UserResponse } from 'common/dto/users/userResponse.dto';
 
 /**
  * Get the currently authenticated user

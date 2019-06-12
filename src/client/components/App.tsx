@@ -13,7 +13,7 @@ import {
   UserContext,
 } from 'client/context';
 import { getCurrentUser } from 'client/api';
-import { UserResponse } from 'common/dto/dto/users/userResponse.dto';
+import { UserResponse } from 'common/dto/users/userResponse.dto';
 import { Message } from './layout';
 
 /**
