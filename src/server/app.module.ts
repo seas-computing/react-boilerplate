@@ -31,7 +31,6 @@ import {
   controllers: [AppController],
   providers: [
     AppService,
-    ConfigService,
     SessionService,
   ],
 })

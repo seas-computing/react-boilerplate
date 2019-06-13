@@ -8,7 +8,10 @@ import { ConfigService } from '../services';
 @Global()
 @Module({
   providers: [
-    ConfigService,
+    {
+      provide: ConfigService,
+      useValue: new ConfigService(process.env),
+    },
   ],
   exports: [ConfigService],
 })
