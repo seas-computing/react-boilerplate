@@ -1,7 +1,7 @@
 {
   "mode": "file",
   "out": "docs",
-  "exclude": "**/__tests__/*",
+  "exclude": ["**/__tests__/*"],
   "excludeExternals": true,
   "readme": "README.md"
 }
