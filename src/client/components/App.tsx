@@ -6,7 +6,6 @@ import React, {
   SFC,
 } from 'react';
 import { hot } from 'react-hot-loader/root';
-import { User } from 'server/models';
 import { MESSAGE_TYPE, MESSAGE_ACTION, AppMessage } from 'client/classes';
 import {
   MessageContext,
@@ -14,6 +13,7 @@ import {
   UserContext,
 } from 'client/context';
 import { getCurrentUser } from 'client/api';
+import { UserResponse } from 'common/dto/users/userResponse.dto';
 import { Message } from './layout';
 
 /**
@@ -49,7 +49,7 @@ const ColdApp: SFC = (): ReactElement => {
 
   useEffect((): void => {
     getCurrentUser()
-      .then(({ data: user }): User => {
+      .then(({ data: user }): UserResponse => {
         setUser(user);
         return user;
       })

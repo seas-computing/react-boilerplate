@@ -7,8 +7,8 @@ import { MongooseModuleOptions } from '@nestjs/mongoose';
 class ConfigService {
   private readonly env: { [key: string]: string };
 
-  public constructor() {
-    this.env = { ...process.env };
+  public constructor(config: { [key: string]: string} = {}) {
+    this.env = config;
   }
 
   /**

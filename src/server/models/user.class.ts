@@ -1,5 +1,3 @@
-import { HarvardKeyProfile } from '../interfaces';
-
 /**
  * Basic user object
  */
@@ -26,19 +24,6 @@ export class User {
     this.firstName = data.firstName;
     this.lastName = data.lastName;
     this.email = data.email;
-  }
-
-  /**
-   * Create a user from the profile data returned by SAML
-   */
-
-  public static fromProfile(data: HarvardKeyProfile): User {
-    return new User({
-      id: data.eppn,
-      firstName: data.givenName,
-      lastName: data.sn,
-      email: data.email,
-    });
   }
 
   /**
