@@ -5,13 +5,14 @@
 import {
   Entity,
   Column,
+  OneToMany,
   ManyToOne,
   ObjectType,
 } from 'typeorm';
-import { Area, BaseEntity } from '.';
+import { Area, BaseEntity, CourseInstance } from '.';
 
 /**
- * The parent of many CourseInstance entities. The course entity is responsibile
+ * The parent of many [[CourseInstance]] entities. The course entity is responsibile
  * for managing area, title and course code information. This informaion does
  * not change between course insances. It's modification would denote the
  * creation of an entirely new course
@@ -66,6 +67,12 @@ export class Course extends BaseEntity {
       + ' are still finalizing the course details',
   })
   public private: boolean = true;
+
+  @OneToMany(
+    (): ObjectType<CourseInstance> => CourseInstance,
+    ({ course }): Course => course
+  )
+  public instances: CourseInstance[];
 
   @ManyToOne(
     (): ObjectType<Area> => Area,
