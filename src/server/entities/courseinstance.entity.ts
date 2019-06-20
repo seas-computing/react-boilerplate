@@ -8,8 +8,14 @@ import {
   ManyToOne,
   ObjectType,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
-import { BaseEntity, Course, Faculty } from '.';
+import {
+  BaseEntity,
+  Course,
+  Faculty,
+  Semester,
+} from '.';
 
 @Entity()
 export class CourseInstance extends BaseEntity {
@@ -29,4 +35,10 @@ export class CourseInstance extends BaseEntity {
     ({ courseInstances }): CourseInstance[] => courseInstances
   )
   public faculty: Faculty[];
+
+  @OneToMany(
+    (): ObjectType<Semester> => Semester,
+    ({ courseInstances }): CourseInstance[] => courseInstances
+  )
+  public semester: Semester;
 }
