@@ -9,7 +9,12 @@ import {
   ManyToOne,
   ObjectType,
 } from 'typeorm';
-import { Area, BaseEntity, CourseInstance } from '.';
+import {
+  BaseEntity,
+  CourseInstance,
+  Area,
+  NonClassParent,
+} from '.';
 
 /**
  * The parent of many [[CourseInstance]] entities. The course entity is responsibile
@@ -73,6 +78,12 @@ export class Course extends BaseEntity {
     ({ course }): Course => course
   )
   public instances: CourseInstance[];
+
+  @OneToMany(
+    (): ObjectType<NonClassParent> => NonClassParent,
+    ({ course }): Course => course
+  )
+  public nonClassParents: NonClassParent[];
 
   @ManyToOne(
     (): ObjectType<Area> => Area,
