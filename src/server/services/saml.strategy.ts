@@ -2,7 +2,7 @@ import { Strategy } from 'passport-saml';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { HarvardKeyProfile } from '../interfaces';
-import { User } from '../models';
+import { User } from '../entities';
 import { ConfigService } from './config.service';
 
 /**

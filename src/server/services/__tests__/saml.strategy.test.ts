@@ -4,7 +4,7 @@ import { regularUser } from 'testData';
 import { deepStrictEqual, strictEqual } from 'assert';
 import { HarvardKeyProfile } from 'server/interfaces';
 import { UnauthorizedException } from '@nestjs/common';
-import { User } from 'server/models';
+import { User } from 'server/entities';
 import { SAMLStrategy } from '../saml.strategy';
 import { ConfigService } from '../config.service';
 

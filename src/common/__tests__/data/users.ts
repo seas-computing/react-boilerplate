@@ -1,4 +1,4 @@
-import { User } from 'server/models';
+import { User } from 'server/entities';
 
 export const rawRegularUserData = {
   firstName: 'Regular',
