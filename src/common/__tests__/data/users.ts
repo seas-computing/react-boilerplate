@@ -1,10 +1,10 @@
 import { User } from 'server/entities';
 
-export const rawRegularUserData = {
+export const rawRegularUserData: User = {
   firstName: 'Regular',
   lastName: 'User',
-  id: '88888888',
+  id: '84ac7431-f612-49c4-953c-0497f44cebc2',
   email: 'test@seas.harvard.edu',
 };
 
-export const regularUser: User = new User(rawRegularUserData);
+export const regularUser = rawRegularUserData;

@@ -84,11 +84,11 @@ describe('SAML Strategy', function () {
 
     const user = await saml.validate();
 
-    deepStrictEqual(user, new User({
+    deepStrictEqual(user, {
       email: 'noreply@seas.harvard.edu',
       id: 'abc123',
       firstName: 'Test',
       lastName: 'User',
-    }));
+    } as User);
   });
 });

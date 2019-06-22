@@ -3,42 +3,11 @@
  */
 
 export class User {
-  public readonly id: string;
+  public id: string;
 
-  public readonly firstName: string;
+  public firstName: string;
 
-  public readonly lastName: string;
+  public lastName: string;
 
-  public readonly email: string;
-
-  /**
-   * create a new user from an object
-   */
-  public constructor(data: {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-  }) {
-    this.id = data.id;
-    this.firstName = data.firstName;
-    this.lastName = data.lastName;
-    this.email = data.email;
-  }
-
-  /**
-   * Get the user's name as firstName lastName
-   */
-
-  public get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
-  }
-
-  /**
-   * Get the user's name as lastName, firstName
-   */
-
-  public get listName(): string {
-    return `${this.lastName}, ${this.firstName}`;
-  }
+  public email: string;
 }

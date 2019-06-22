@@ -24,22 +24,24 @@ class SAMLStrategy extends PassportStrategy(Strategy) {
 
   public async validate(profile?: HarvardKeyProfile): Promise<User> {
     if (this.devMode) {
-      return new User({
+      const dummyUser: User = {
         id: 'abc123',
         firstName: 'Test',
         lastName: 'User',
         email: 'noreply@seas.harvard.edu',
-      });
+      };
+      return dummyUser;
     }
     if (!profile) {
       throw new UnauthorizedException('You are not authorized to use this application. Please contact SEAS computing');
     }
-    return new User({
+    const authenticatedUser: User = {
       id: profile.eppn,
       firstName: profile.givenName,
       lastName: profile.sn,
       email: profile.email,
-    });
+    };
+    return authenticatedUser;
   }
 }
 
