@@ -2,8 +2,13 @@
  * @module Server.Entities
  */
 
-import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '.';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  ObjectType,
+} from 'typeorm';
+import { Area, BaseEntity } from '.';
 
 /**
  * The parent of many CourseInstance entities. The course entity is responsibile
@@ -61,4 +66,10 @@ export class Course extends BaseEntity {
       + ' are still finalizing the course details',
   })
   public private: boolean = true;
+
+  @ManyToOne(
+    (): ObjectType<Area> => Area,
+    ({ courses }): Course[] => courses
+  )
+  public area: Area;
 }
