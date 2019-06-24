@@ -8,7 +8,7 @@ import {
   ObjectType,
   OneToMany,
 } from 'typeorm';
-import { BaseEntity, CourseInstance } from '.';
+import { BaseEntity, CourseInstance, NonClassEvent } from '.';
 
 @Entity()
 export abstract class Semester extends BaseEntity {
@@ -27,4 +27,10 @@ export abstract class Semester extends BaseEntity {
     ({ semester }): Semester => semester
   )
   public courseInstances: CourseInstance[];
+
+  @OneToMany(
+    (): ObjectType<NonClassEvent> => NonClassEvent,
+    ({ semester }): Semester => semester
+  )
+  public nonClassEvents: NonClassEvent[];
 }
