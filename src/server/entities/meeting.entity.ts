@@ -7,11 +7,13 @@ import {
   Column,
   ManyToOne,
   ObjectType,
+  OneToMany,
 } from 'typeorm';
 import {
   BaseEntity,
   CourseInstance,
   NonClassEvent,
+  Room,
 } from '.';
 
 /**
@@ -69,4 +71,10 @@ export class Meeting extends BaseEntity {
     ({ meeting }): Meeting => meeting
   )
   public courseInstance: CourseInstance;
+
+  @OneToMany(
+    (): ObjectType<Room> => Room,
+    ({ meetings }): Meeting[] => meetings
+  )
+  public room: Room;
 }
