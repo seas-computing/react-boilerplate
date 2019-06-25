@@ -3,10 +3,13 @@
  */
 
 import {
-  Entity, Column, OneToMany, ObjectType,
+  Entity, Column, OneToMany, ObjectType, ManyToOne,
 } from 'typeorm';
-import { BaseEntity } from './base.entity';
-import { Room } from './room.entity';
+import {
+  BaseEntity,
+  Room,
+  Campus,
+} from '.';
 
 @Entity()
 export class Building extends BaseEntity {
@@ -22,4 +25,10 @@ export class Building extends BaseEntity {
     ({ building }): Building => building
   )
   public rooms: Room[];
+
+  @ManyToOne(
+    (): ObjectType<Campus> => Campus,
+    ({ buildings }): Building[] => buildings
+  )
+  public campus: Campus;
 }
