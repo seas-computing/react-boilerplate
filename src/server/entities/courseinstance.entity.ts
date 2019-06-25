@@ -15,6 +15,7 @@ import {
   Course,
   Faculty,
   Semester,
+  Meeting,
 } from '.';
 
 @Entity()
@@ -35,6 +36,12 @@ export class CourseInstance extends BaseEntity {
     ({ courseInstances }): CourseInstance[] => courseInstances
   )
   public faculty: Faculty[];
+
+  @OneToMany(
+    (): ObjectType<Meeting> => Meeting,
+    ({ courseInstance }): CourseInstance => courseInstance
+  )
+  public meeting: Meeting;
 
   @OneToMany(
     (): ObjectType<Semester> => Semester,
