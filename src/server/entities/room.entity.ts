@@ -5,7 +5,7 @@
 import {
   Entity, Column, ManyToOne, ObjectType,
 } from 'typeorm';
-import { BaseEntity, Meeting } from '.';
+import { BaseEntity, Building, Meeting } from '.';
 
 @Entity()
 export class Room extends BaseEntity {
@@ -36,4 +36,10 @@ export class Room extends BaseEntity {
     ({ room }): Room => room
   )
   public meetings: Meeting[];
+
+  @ManyToOne(
+    (): ObjectType<Building> => Building,
+    ({ rooms }): Room[] => rooms
+  )
+  public building: Building;
 }
