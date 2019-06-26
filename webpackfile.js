@@ -1,9 +1,11 @@
-const { resolve, join } = require('path');
+const {resolve, join} = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 /**
  * NestJs uses a custom wrapper around require() that allows it to show a
  * warning when some extra package needs to be installed. This causes problems
@@ -28,24 +30,32 @@ const nestBlacklist = [
 
 const optimization = {
   minimize: true,
-  minimizer: [new TerserPlugin()],
+  minimizer: [new TerserPlugin({
+    sourceMap: true,
+  })],
   noEmitOnErrors: true,
   nodeEnv: 'production',
   occurrenceOrder: true,
   providedExports: true,
   usedExports: true,
   sideEffects: true,
-  splitChunks: {
-    name: true,
-    cacheGroups: {
-      assets: {
-        test: /node_modules/,
-        chunks: 'all',
-        filename: '[name].server.js',
-      },
+};
+
+const splitChunks = {
+  chunks: 'all',
+  name: true,
+  minSize: 1,
+  minChunks: 1,
+  cacheGroups: {
+    assets: {
+      test: /[\\/]node_modules[\\/]/,
+      enforce: true,
+      reuseExistingChunk: true,
+      filename: '[name][hash].js',
     },
   },
 };
+
 
 const mode = 'none';
 
@@ -84,7 +94,7 @@ const client = {
   module: {
     rules: [tsLoader],
   },
-  optimization,
+  optimization: {...optimization, splitChunks},
   plugins: [
     new HtmlWebpackPlugin({
       title: process.env.APP_NAME,
@@ -97,7 +107,10 @@ const client = {
 const server = {
   name: 'server',
   mode,
+  devtool: 'source-map',
+  context: resolve(__dirname),
   entry: ['./src/server/index.ts'],
+  externals: [nodeExternals()],
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'server.js',
@@ -105,7 +118,20 @@ const server = {
   resolve: wpResolve,
   target: 'node',
   module: {
-    rules: [tsLoader],
+    rules: [
+      {
+        test: /\.xml$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
+      tsLoader,
+    ],
   },
   optimization,
   plugins: [
