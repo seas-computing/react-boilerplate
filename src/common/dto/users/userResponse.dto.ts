@@ -18,8 +18,4 @@ export abstract class UserResponse {
   public lastName: string;
 
   public email: string;
-
-  public fullName: string;
-
-  public listName: string;
 }
