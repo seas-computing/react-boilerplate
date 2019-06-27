@@ -11,7 +11,7 @@
  */
 
 export abstract class UserResponse {
-  public id: string;
+  public eppn: string;
 
   public firstName: string;
 

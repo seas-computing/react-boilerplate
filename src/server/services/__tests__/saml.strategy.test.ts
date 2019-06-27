@@ -33,14 +33,14 @@ describe('SAML Strategy', function () {
     const saml = module.get<SAMLStrategy>(SAMLStrategy);
 
     const {
-      id,
+      eppn,
       lastName,
       firstName,
       email,
     } = regularUser;
 
     const user = await saml.validate({
-      eppn: id,
+      eppn,
       givenName: firstName,
       sn: lastName,
       email,
@@ -86,7 +86,7 @@ describe('SAML Strategy', function () {
 
     deepStrictEqual(user, {
       email: 'noreply@seas.harvard.edu',
-      id: 'abc123',
+      eppn: 'abc123@harvard.edu',
       firstName: 'Test',
       lastName: 'User',
     } as User);

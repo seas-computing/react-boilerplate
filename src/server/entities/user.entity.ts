@@ -3,7 +3,7 @@
  */
 
 export class User {
-  public id: string;
+  public eppn: string;
 
   public firstName: string;
 
