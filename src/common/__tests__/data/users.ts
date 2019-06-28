@@ -1,10 +1,8 @@
-import { User } from 'server/models';
+import { User } from 'server/entities';
 
-export const rawRegularUserData = {
+export const regularUser = new User({
   firstName: 'Regular',
   lastName: 'User',
-  id: '88888888',
+  eppn: '4A2849CF119852@harvard.edu',
   email: 'test@seas.harvard.edu',
-};
-
-export const regularUser: User = new User(rawRegularUserData);
+});
