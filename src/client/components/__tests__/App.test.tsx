@@ -33,10 +33,8 @@ describe('App', function () {
       it('displays the name of the current user', async function () {
         const { getByText } = render(<App />);
         strictEqual(apiStub.callCount, 1);
-        const { firstName, lastName } = dummy.regularUser;
-        return waitForElement(
-          () => getByText(`${firstName} ${lastName}`, { exact: false })
-        );
+        const { fullName } = dummy.regularUser;
+        return waitForElement(() => getByText(fullName, { exact: false }));
       });
     });
     context('When userFetch fails', function () {

@@ -53,9 +53,9 @@ const ColdApp: SFC = (): ReactElement => {
         setUser(user);
         return user;
       })
-      .then((user: UserResponse): void => {
+      .then((user): void => {
         dispatchMessage({
-          message: new AppMessage(`Current User: ${user.firstName} ${user.lastName}`),
+          message: new AppMessage(`Current User: ${user.fullName}`),
           type: MESSAGE_ACTION.PUSH,
         });
       })
