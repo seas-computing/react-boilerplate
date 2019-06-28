@@ -14,10 +14,17 @@ describe('User', function () {
 
       const user = new User(userData);
 
-      strictEqual(userData.eppn, user.eppn);
-      strictEqual(userData.email, user.email);
-      strictEqual(userData.firstName, user.firstName);
-      strictEqual(userData.lastName, user.lastName);
+      strictEqual(user.eppn, userData.eppn);
+      strictEqual(user.email, userData.email);
+      strictEqual(user.firstName, userData.firstName);
+      strictEqual(user.lastName, userData.lastName);
+    });
+    it('sets all properties to empty strings if not provided', function () {
+      const user = new User();
+      strictEqual(user.eppn, '');
+      strictEqual(user.email, '');
+      strictEqual(user.firstName, '');
+      strictEqual(user.lastName, '');
     });
   });
   describe('fullName', function () {
