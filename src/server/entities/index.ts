@@ -3,6 +3,8 @@
  */
 
 export * from './base.entity';
+export * from './absence.entity';
+export * from './area.entity';
 export * from './area.entity';
 export * from './building.entity';
 export * from './campus.entity';
