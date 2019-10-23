@@ -11,11 +11,14 @@ This is a starting point for javascript applications developed by the SEAS Appli
 
 This setup uses `docker` and `docker-compose` for local development, as defined in `docker-compose.yml`. Installation instructions for various platforms can be found [here][docker].
 
-You'll also need to copy `.env-example` to `.env` and fill in the appropriate values.
+Node is also required.
+
+You'll also need to copy `.env-example` to `.env` and fill in the appropriate values. For local development the default values in `.env-example` should do.
 
 Then to start the project, run:
 
 ```sh
+npm install
 docker-compose up
 ```
 
