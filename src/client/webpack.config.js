@@ -10,7 +10,6 @@ const paths = {
   dist: {
     rootDir: _resolve(__dirname, '..', '..', 'build'),
     app: _resolve(__dirname, '..', '..', 'build', 'static'),
-    static: 'static',
   },
 };
 
@@ -30,7 +29,6 @@ const config = ({ mode = 'none' }, processEnv = {}) => ({
   output: {
     path: paths.dist.app,
     filename: 'app.js',
-    publicPath: `/${paths.dist.static}/`,
   },
   optimization: {
     minimize: true,
