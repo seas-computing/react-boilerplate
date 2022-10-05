@@ -37,7 +37,7 @@
     "test": "TS_NODE_TRANSPILE_ONLY=true nyc mocha",
     "test:watch": "TS_NODE_TRANSPILE_ONLY=true mocha --watch",
     "typecheck": "tsc --noEmit",
-    "start": "nodemon"
+    "start": "nodemon & webpack-dev-server --config webpack.dev-server.config --config-name=client"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
@@ -92,6 +92,7 @@
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.4",
     "webpack-dev-middleware": "^3.7.0",
+    "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-node-externals": "^1.7.2"
   }
