@@ -17,14 +17,11 @@ const watchConfig = {
 };
 
 /**
-* Development Webpack Build File
+* Webpack Dev Server Config
 *
-* This webpack configuration extends `webpack.config.js` and builds on it to
-* provide hot module replacement, watch moide and a dev server for the
-* client-side code
-*
-* Other dev tools such as watching, hot module reloading etc. has been split
-* out into other config files
+* This webpack configuration somewhat mimics `webpack.config.js`, but also
+* provides live reloading for the client side code and hot module replacement
+* for the server-side code
 *
 * @param {object} env Webpack `env` object
 */
