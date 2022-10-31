@@ -34,10 +34,10 @@ const nestIgnore = [
  *
  * This webpack config produces a bundle for the server-side application only.
  *
- * @param {object} webpackEnv Webpack env object (basically any/all options passed in via the CLI)
- * @param {object} [processEnv] Process env object (environment variables from process.env)
+ * @param {object} env Webpack `env` object. See https://v4.webpack.js.org/api/cli/#environment-options
+ * @param {object} argv Webpack `argv` object. See https://v4.webpack.js.org/configuration/configuration-types/#exporting-a-function
  */
-const config = ({ mode = 'none' }, processEnv = {}) => ({
+const config = (env, { mode = 'none' }) => ({
   name: 'server',
   mode,
   target: 'node',

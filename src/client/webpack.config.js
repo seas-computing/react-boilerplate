@@ -1,5 +1,4 @@
 const { resolve: _resolve, sep } = require('path');
-const webpack = require('webpack');
 const HtmlWebpackRootPlugin = require('html-webpack-root-plugin');
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -18,10 +17,10 @@ const paths = {
  *
  * This webpack config produces a bundle for the client-side application only.
  *
- * @param {object} webpackEnv Webpack env object (basically any/all options passed in via the CLI)
- * @param {object} [processEnv] Process env object (environment variables from process.env)
+ * @param {object} env Webpack `env` object. See https://v4.webpack.js.org/api/cli/#environment-options
+ * @param {object} argv Webpack `argv` object. See https://v4.webpack.js.org/configuration/configuration-types/#exporting-a-function
  */
-const config = ({ mode = 'none' }, processEnv = {}) => ({
+const config = (env, { mode = 'none' }) => ({
   name: 'client',
   target: 'web',
   mode,
@@ -82,7 +81,7 @@ const config = ({ mode = 'none' }, processEnv = {}) => ({
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: processEnv.APP_NAME,
+      title: env.APP_NAME,
     }),
     new HtmlWebpackRootPlugin(),
   ],
